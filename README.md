@@ -1,5 +1,7 @@
 # Readme
 
+This project uses a Raspberry Pi with DHT22 digital temp and humidity sensor and TM1637 LED display.
+
 ## Install Dependencies
 
 ```$xslt
