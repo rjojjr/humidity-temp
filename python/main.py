@@ -29,13 +29,14 @@ def execute(statement):
 
         mycursor = mydb.cursor()
         mycursor.execute(statement)
+        mydb.commit()
     except:
         print("An SQL error has happened")
 
 def insertRecord(temp, humidity):
     now = datetime.datetime.now()
     formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
-    statement = "INSERT INTO readings (`temp`, `humidity`, `time`) VALUES ('" + temp + "','" + humidity + "','"  + formatted_date + "');"
+    statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('office','" + temp + "','" + humidity + "','"  + formatted_date + "');"
     execute(statement)
 
 def getTemp():
