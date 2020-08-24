@@ -1,5 +1,6 @@
 import tm1637
 import Adafruit_DHT
+import MySql
 
 tm = tm1637.TM1637(clk=23, dio=24)
 
@@ -30,6 +31,7 @@ def getTemp():
     tm.numbers(int(t[0] + t[1]), int(h[0] + h[1]))
     if (DEBUG == 1):
         print "Temp: " + str(temp) + " Humidity: " + str(humidity)
+    MySql.insert(t, h)
 
 
 while True:
