@@ -12,7 +12,8 @@ import time
 DHT_PIN = 4
 # Print each reading
 DEBUG = 1
-
+#Debug SQL
+SQL_DEBUG = 1
 temp = 0
 humidity = 0
 temperature = 0
@@ -28,7 +29,11 @@ def execute(statement):
         )
 
         mycursor = mydb.cursor()
+        if (SQL_DEBUG == 1):
+            print("Executing SQL statement: " + statement)
         mycursor.execute(statement)
+        if (SQL_DEBUG == 1):
+            print("Committing row to db")
         mydb.commit()
     except:
         print("An SQL error has happened")
@@ -53,15 +58,12 @@ def getTemp():
         h = "0" + h[0]
     tm.numbers(int(t[0] + t[1]), int(h[0] + h[1]))
     if (DEBUG == 1):
-        print "Temp: " + str(temp) + " Humidity: " + str(humidity)
+        print("Temp: " + str(temp) + " Humidity: " + str(humidity))
     insertRecord(t, h)
-
-
-
 
 while True:
     treadings = [0]
     hreadings = [0]
-    print "Reading..."
+    print("Reading...")
     getTemp()
     time.sleep(15)
