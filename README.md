@@ -35,7 +35,11 @@ To access MySQL DB:
 docker exec -it temp-sql mysql -uroot
 ```
 
-Replacing the mount paths and password with what ever suits your needs.
+Now install python mysql connector
+
+```$xslt
+python -m pip install mysql-connector-python 
+```
 
 _*NOTE: You must MySQL v8 or above because older versions do not support ARM CPU*_
 
