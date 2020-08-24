@@ -1,5 +1,7 @@
 import tm1637
 import Adafruit_DHT
+import mysql.connector
+import datetime
 
 tm = tm1637.TM1637(clk=23, dio=24)
 
@@ -14,6 +16,27 @@ DEBUG = 1
 temp = 0
 humidity = 0
 temperature = 0
+
+def execute(statement):
+    try:
+        mydb = mysql.connector.connect(
+            host="192.168.1.12",
+            port="3306",
+            user="pythonuser",
+            password="UEAkJFcwcmRQQCQkVzByZAo=",
+            database="py_temp"
+        )
+
+        mycursor = mydb.cursor()
+        mycursor.execute(statement)
+    except:
+        print("An SQL error has happened")
+
+def insertRecord(temp, humidity):
+    now = datetime.datetime.now()
+    formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+    statement = "INSERT INTO readings (`temp`, `humidity`, `time`) VALUES ('" + temp + "','" + humidity + "','"  + formatted_date + "');"
+    execute(statement)
 
 def getTemp():
     sensor = Adafruit_DHT.DHT22
@@ -30,6 +53,9 @@ def getTemp():
     tm.numbers(int(t[0] + t[1]), int(h[0] + h[1]))
     if (DEBUG == 1):
         print "Temp: " + str(temp) + " Humidity: " + str(humidity)
+    insertRecord(t, h)
+
+
 
 
 while True:
