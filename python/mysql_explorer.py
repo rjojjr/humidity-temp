@@ -9,5 +9,7 @@ while userInput != 0:
     userInput = input()
     if userInput == 1:
         print("Avg. Temp = " + str(sql.avgTemp()))
-    if userInput == 2:
+    elif userInput == 2:
         print("Avg. Humidity = " + str(sql.avgHumidity()))
+    else:
+        print("Invalid input")
