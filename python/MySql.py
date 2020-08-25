@@ -75,4 +75,8 @@ class MySql:
 
     def runQuery(self, statement):
         result = self.executeStatementReturn(statement)
-        print(result)
+        for i in result:
+            row = ""
+            for k in i:
+                row = row + " " + str(k)
+            print(row)

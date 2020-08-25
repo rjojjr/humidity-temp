@@ -12,7 +12,7 @@ while userInput != 0:
     print("3. Print all Rows")
     print("4. Execute Statement")
     print("0. Exit")
-    userInput = input()
+    userInput = input("Enter your selection: ")
     if userInput == 1:
         print("Avg. Temp = " + str(sql.avgTemp()))
     elif userInput == 2:
