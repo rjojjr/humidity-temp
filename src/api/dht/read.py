@@ -1,4 +1,6 @@
-import dht.Adafruit_DHT
+import Adafruit_DHT
+
+DHT_PIN = 4
 
 class Read:
     def getTemp(self):

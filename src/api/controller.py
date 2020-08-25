@@ -10,7 +10,7 @@ def home():
 @app.route('/read', methods=['GET'])
 def read():
     reader = Read()
-    readings = reader.dummy()
+    readings = reader.getTemp()
     return flask.jsonify({"temp": readings[0], "humidity": readings[1]})
 
-app.run()
+app.run(host="0.0.0.0", port=5000, debug=True)
