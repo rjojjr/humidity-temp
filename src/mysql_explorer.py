@@ -11,7 +11,7 @@ def avg(type):
     room = str(userInput)
     userInput = input("Enter 0 to input date range: ")
     if userInput == 0:
-        avgBetween(type)
+        avgBetween(type, room)
     else:
         if type == "temp" :
             print("Avg. Temp = " + str(sql.avgTemp(room)))
@@ -19,7 +19,7 @@ def avg(type):
             print("Avg. Humidity = " + str(sql.avgHumidity(room)))
 
 
-def avgBetween(type):
+def avgBetween(type, room):
     userInput = input("Enter starting date: ")
     start = str(userInput)
     userInput = input("Enter ending date: ")
