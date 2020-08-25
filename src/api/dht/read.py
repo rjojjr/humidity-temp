@@ -1,4 +1,4 @@
-import Adafruit_DHT
+import dht.Adafruit_DHT
 
 DHT_PIN = 4
 
