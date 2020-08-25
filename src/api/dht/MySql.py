@@ -56,13 +56,13 @@ class MySql:
         self.executeStatement(statement)
 
     def avgTemp(self, room):
-        statement = "SELECT AVG(temp) 'Average Temp' FROM readings WHERE room=" + room + ";"
+        statement = "SELECT AVG(temp) 'Average Temp' FROM readings WHERE room = '" + room + "';"
         result = self.executeStatementReturn(statement)
         for i in result:
             return i[0]
 
     def avgHumidity(self, room):
-        statement = "SELECT AVG(humidity) 'Average Humidity' FROM readings WHERE room=" + room + ";"
+        statement = "SELECT AVG(humidity) 'Average Humidity' FROM readings WHERE room = '" + room + "';"
         result = self.executeStatementReturn(statement)
         for i in result:
             return i[0]

@@ -1,18 +1,21 @@
 from api.dht.MySql import MySql
 
+sql = MySql()
+
 def executeCustomSql(sql):
     userInput = input("Enter SQl Statement: ")
     sql.runQuery(userInput)
 
 def avg(type):
     userInput = input("Enter room/sensor name: ")
+    room = str(userInput)
     if type == "temp" :
-        print("Avg. Temp = " + str(sql.avgTemp(userInput)))
+        print("Avg. Temp = " + str(sql.avgTemp(room)))
     else:
-        print("Avg. Humidity = " + str(sql.avgHumidity(userInput)))
+        print("Avg. Humidity = " + str(sql.avgHumidity(room)))
 
-sql = MySql()
 userInput = -1
+
 while userInput != 0:
     print("1. Avg Temp")
     print("2. Avg Humidity")
@@ -21,9 +24,9 @@ while userInput != 0:
     print("0. Exit")
     userInput = input("Enter your selection: ")
     if userInput == 1:
-        print("Avg. Temp = " + str(sql.avgTemp()))
+        avg("temp")
     elif userInput == 2:
-        print("Avg. Humidity = " + str(sql.avgHumidity()))
+        avg("hum")
     elif userInput == 3:
         sql.getAllReadings()
     elif userInput == 4:
