@@ -54,6 +54,14 @@ class RecordingThread (threading.Thread):
     def stop(self):
         self.run = False
 
+    def raise_exception(self):
+        thread_id = self.threadID
+        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
+              ctypes.py_object(SystemExit))
+        if res > 1:
+            ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
+            print('Exception raise failure')
+
     def run(self):
         while self.run:
             print("Reading...")
