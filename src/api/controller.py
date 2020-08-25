@@ -7,9 +7,8 @@ from dht.recording_thread import RecordingThread
 
 import threading
 
-thread = None
 app = flask.Flask(__name__)
-def server():
+def server(thread):
 
     app.config["DEBUG"] = True
     def shutdown_server():
@@ -39,5 +38,5 @@ def server():
 def main(room):
     thread = RecordingThread(1, "recorder", room)
     thread.start()
-    server()
+    server(thread)
 

@@ -61,8 +61,40 @@ class MySql:
         for i in result:
             return i[0]
 
+    def avgTempToday(self, room):
+        now = datetime.datetime.today()
+        tom = now + datetime.timedelta(days = 1)
+        statement = "SELECT AVG(temp) 'Average Temp' FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + now.strftime('%Y-%m-%d') + "' AND '" + tom.strftime('%Y-%m-%d') + "';"
+        result = self.executeStatementReturn(statement)
+        for i in result:
+            return i[0]
+
+    def avgHumidityToday(self, room):
+        now = datetime.datetime.today()
+        tom = now + datetime.timedelta(days = 1)
+        statement = "SELECT AVG(humidity) 'Average Temp' FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + now.strftime('%Y-%m-%d') + "' AND '" + tom.strftime('%Y-%m-%d') + "';"
+        result = self.executeStatementReturn(statement)
+        for i in result:
+            return i[0]
+
     def avgHumidity(self, room):
         statement = "SELECT AVG(humidity) 'Average Humidity' FROM readings WHERE room = '" + room + "';"
+        result = self.executeStatementReturn(statement)
+        for i in result:
+            return i[0]
+
+    def avgTempBetween(self, room, start, stop):
+        now = datetime.datetime.today()
+        tom = now + datetime.timedelta(days = 1)
+        statement = "SELECT AVG(temp) 'Average Temp' FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + start + "' AND '" + stop + "';"
+        result = self.executeStatementReturn(statement)
+        for i in result:
+            return i[0]
+
+    def avgHumidityBetween(self, room, start, stop):
+        now = datetime.datetime.today()
+        tom = now + datetime.timedelta(days = 1)
+        statement = "SELECT AVG(humidity) 'Average Temp' FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + start + "' AND '" + stop + "';"
         result = self.executeStatementReturn(statement)
         for i in result:
             return i[0]
