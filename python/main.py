@@ -4,6 +4,8 @@ import mysql.connector
 import datetime
 from MySql import MySql
 
+import sys
+
 tm = tm1637.TM1637(clk=23, dio=24)
 
 # v1.0.00a
@@ -16,6 +18,11 @@ DEBUG = 1
 temp = 0
 humidity = 0
 temperature = 0
+
+room = "office"
+
+if len(sys.argv) == 2:
+    room = sys.argv[1]
 
 def getTemp():
     sensor = Adafruit_DHT.DHT22
@@ -33,7 +40,7 @@ def getTemp():
     if (DEBUG == 1):
         print("Temp: " + str(temp) + " Humidity: " + str(humidity))
     con = MySql()
-    con.insertRecord(t, h)
+    con.insertRecord(t, h, room)
 
 while True:
     treadings = [0]

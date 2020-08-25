@@ -49,10 +49,10 @@ class MySql:
                 print("An SQL error happened")
                 return ""
 
-    def insertRecord(self, temp, humidity):
+    def insertRecord(self, temp, humidity, room):
         now = datetime.datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
-        statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('office','" + temp + "','" + humidity + "','"  + formatted_date + "');"
+        statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + temp + "','" + humidity + "','"  + formatted_date + "');"
         self.executeStatement(statement)
 
     def avgTemp(self):
