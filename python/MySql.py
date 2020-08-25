@@ -71,4 +71,4 @@ class MySql:
         statement = "SELECT * FROM readings;"
         result = self.executeStatementReturn(statement)
         for i in result:
-            print(i[0])
+            print("id: " + str(i[0]) + " room: " + i[1] + " temp: " + str(i[2]) + " humidity: " + str(i[3]) + " time: " + str(i[4]))
