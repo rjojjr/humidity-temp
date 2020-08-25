@@ -16,17 +16,17 @@ class MySql:
                 database="py_temp"
             )
 
-            mycursor = mydb.cursor()
+            mycursor = mydb.cursor(buffered=True)
             if (SQL_DEBUG == 1):
                 print("Executing SQL statement: " + statement)
             mycursor.execute(statement)
             if (SQL_DEBUG == 1):
-                print("Committing row to db")
+                print("Committing to db")
             mydb.commit()
             records = mycursor.fetchall()
             return records
         except:
-            print("An SQL error has happened")
+            print("An SQL error happened")
             return ""
 
     def insertRecord(self, temp, humidity):
@@ -37,8 +37,18 @@ class MySql:
 
     def avgTemp(self):
         statement = "SELECT AVG(temp) 'Average Temp' FROM readings;"
-        result = executeStatement(statement)
-        print(result)
+        result = self.executeStatement(statement)
+        for i in result:
+            return i[0]
+
+    def avgHumidity(self):
+        statement = "SELECT AVG(humidity) 'Average Humidity' FROM readings;"
+        result = self.executeStatement(statement)
+        for i in result:
+            return i[0]
 
     def getAllReadings(self):
         statement = "SELECT * FROM readings;"
+        result = self.executeStatement(statement)
+        for i in result:
+            print(i[0])
