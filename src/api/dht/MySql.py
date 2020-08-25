@@ -55,14 +55,14 @@ class MySql:
         statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + temp + "','" + humidity + "','"  + formatted_date + "');"
         self.executeStatement(statement)
 
-    def avgTemp(self):
-        statement = "SELECT AVG(temp) 'Average Temp' FROM readings;"
+    def avgTemp(self, room):
+        statement = "SELECT AVG(temp) 'Average Temp' FROM readings WHERE room=" + room + ";"
         result = self.executeStatementReturn(statement)
         for i in result:
             return i[0]
 
-    def avgHumidity(self):
-        statement = "SELECT AVG(humidity) 'Average Humidity' FROM readings;"
+    def avgHumidity(self, room):
+        statement = "SELECT AVG(humidity) 'Average Humidity' FROM readings WHERE room=" + room + ";"
         result = self.executeStatementReturn(statement)
         for i in result:
             return i[0]

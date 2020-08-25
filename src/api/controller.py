@@ -7,12 +7,7 @@ from dht.recording_thread import RecordingThread
 
 import threading
 
-room = "office"
-
-if len(sys.argv) == 2:
-    room = sys.argv[1]
-
-thread = RecordingThread(1, "recorder", room)
+thread = None
 app = flask.Flask(__name__)
 def server():
 
@@ -41,9 +36,8 @@ def server():
 
     app.run(host="0.0.0.0", port=5000, debug=True)
 
-def main():
-
+def main(room):
+    thread = RecordingThread(1, "recorder", room)
     thread.start()
     server()
 
-main()

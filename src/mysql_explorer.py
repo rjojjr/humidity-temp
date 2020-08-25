@@ -1,8 +1,15 @@
-from MySql import MySql
+from api.dht.MySql import MySql
 
 def executeCustomSql(sql):
     userInput = input("Enter SQl Statement: ")
     sql.runQuery(userInput)
+
+def avg(type):
+    userInput = input("Enter room/sensor name: ")
+    if type == "temp" :
+        print("Avg. Temp = " + str(sql.avgTemp(userInput)))
+    else:
+        print("Avg. Humidity = " + str(sql.avgHumidity(userInput)))
 
 sql = MySql()
 userInput = -1
