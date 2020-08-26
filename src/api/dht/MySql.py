@@ -55,6 +55,14 @@ class MySql:
         for i in result:
             return [str(i[0]), str(i[1])]
 
+    def getRooms(self):
+        statement = "SELECT DISTINCT room FROM readings"
+        result = self.executeStatementReturn(statement)
+        rooms = []
+        for i in result:
+            rooms.append(i[0])
+        return rooms
+
     def insertRecord(self, temp, humidity, room):
         now = datetime.datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
