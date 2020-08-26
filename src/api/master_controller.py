@@ -1,0 +1,50 @@
+import flask
+
+from flask import request
+
+from flask_cors import CORS
+
+from dht.MySql import MySql
+
+from summary_service import SummaryService
+
+import threading
+
+app = flask.Flask(__name__)
+cors = CORS(app)
+def server():
+
+    app.config["DEBUG"] = True
+    def shutdown_server():
+        func = request.environ.get('werkzeug.server.shutdown')
+        if func is None:
+            raise RuntimeError('Not running with the Werkzeug Server')
+        func()
+
+    @app.route('/shutdown', methods=['POST'])
+    def shutdown():
+       shutdown_server()
+       return 'Server shutting down...'
+
+    @app.route('/', methods=['GET'])
+    def home():
+        return flask.jsonify({
+        "name": "py-temp Master API"
+        })
+
+    @app.route('/summary/<room>', methods=['GET'])
+    def summary(room):
+        assert room == request.view_args['room']
+        summary = SummaryService()
+        return flask.jsonify(summary.getSummary(room))
+
+    @app.route('/summary', methods=['GET'])
+    def summary():
+        summary = SummaryService()
+        return flask.jsonify(summary.getSummaries())
+
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
+def main():
+    server()
+
