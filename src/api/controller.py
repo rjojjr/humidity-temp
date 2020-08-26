@@ -3,6 +3,8 @@ from dht.read import Read
 
 from flask import request
 
+from flask_cors import CORS
+
 from dht.MySql import MySql
 from summary_service import SummaryService
 
@@ -11,6 +13,7 @@ from dht.recording_thread import RecordingThread
 import threading
 
 app = flask.Flask(__name__)
+cors = CORS(app)
 def server(thread):
 
     app.config["DEBUG"] = True

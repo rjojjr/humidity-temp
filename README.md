@@ -22,6 +22,7 @@ sudo apt-get install python-dev python-pip
 sudo pip install wiringpi2
 sudo pip install Adafruit_DHT
 sudo pip install flask
+pip install -U flask-cors
 ```
 
 ## MySQL
