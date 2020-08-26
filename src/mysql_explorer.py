@@ -1,18 +1,36 @@
 from api.dht.MySql import MySql
 
+sql = MySql()
+
 def executeCustomSql(sql):
     userInput = input("Enter SQl Statement: ")
     sql.runQuery(userInput)
 
 def avg(type):
     userInput = input("Enter room/sensor name: ")
-    if type == "temp" :
-        print("Avg. Temp = " + str(sql.avgTemp(userInput)))
+    room = str(userInput)
+    userInput = input("Enter 0 to input date range: ")
+    if userInput == 0:
+        avgBetween(type, room)
     else:
-        print("Avg. Humidity = " + str(sql.avgHumidity(userInput)))
+        if type == "temp" :
+            print("Avg. Temp = " + str(sql.avgTemp(room)))
+        else:
+            print("Avg. Humidity = " + str(sql.avgHumidity(room)))
 
-sql = MySql()
+
+def avgBetween(type, room):
+    userInput = input("Enter starting date: ")
+    start = str(userInput)
+    userInput = input("Enter ending date: ")
+    stop = str(userInput)
+    if type == "temp" :
+        print("Avg. Temp = " + str(sql.avgTempBetween(room, start, stop)))
+    else:
+        print("Avg. Humidity = " + str(sql.avgHumidityBetween(room, start, stop)))
+
 userInput = -1
+
 while userInput != 0:
     print("1. Avg Temp")
     print("2. Avg Humidity")
@@ -21,9 +39,9 @@ while userInput != 0:
     print("0. Exit")
     userInput = input("Enter your selection: ")
     if userInput == 1:
-        print("Avg. Temp = " + str(sql.avgTemp()))
+        avg("temp")
     elif userInput == 2:
-        print("Avg. Humidity = " + str(sql.avgHumidity()))
+        avg("hum")
     elif userInput == 3:
         sql.getAllReadings()
     elif userInput == 4:

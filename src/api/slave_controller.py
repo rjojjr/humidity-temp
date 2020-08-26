@@ -3,13 +3,18 @@ from dht.read import Read
 
 from flask import request
 
+from flask_cors import CORS
+
+from dht.MySql import MySql
+from summary_service import SummaryService
+
 from dht.recording_thread import RecordingThread
 
 import threading
 
-thread = None
 app = flask.Flask(__name__)
-def server():
+cors = CORS(app)
+def server(thread):
 
     app.config["DEBUG"] = True
     def shutdown_server():
@@ -34,10 +39,16 @@ def server():
         readings = reader.getTemp()
         return flask.jsonify({"temp": readings[0], "humidity": readings[1]})
 
+    @app.route('/summary/<room>', methods=['GET'])
+    def summary(room):
+        assert room == request.view_args['room']
+        summary = SummaryService()
+        return flask.jsonify(summary.getSummary(room))
+
     app.run(host="0.0.0.0", port=5000, debug=True)
 
 def main(room):
     thread = RecordingThread(1, "recorder", room)
     thread.start()
-    server()
+    server(thread)
 
