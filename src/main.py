@@ -1,4 +1,4 @@
-from api.controller import main
+from api.slave_controller import main
 import sys
 
 room = "office"
