@@ -3,7 +3,7 @@
 This project uses a Raspberry Pi running Ubuntu Server OS 
 with DHT22 digital temp and humidity sensor and TM1637 LED display.
 
-This project serves as a DHT22 API.
+This project serves as a slave DHT22 API and will have a master API.
 
 The readings will be stored in a MYSQL instance running in docker.
 
@@ -49,10 +49,10 @@ _*NOTE: You must MySQL v8 or above because older versions do not support ARM CPU
 
 ## Running
 
-To run the program, launch controller.py with room/sensor name argument.
+To run the slave API, launch slave_api_main.py with room/sensor name argument.
 
-_*NOTE: You must run as root ro get access to GPIO*_
+_*NOTE: You must run as root to get access to GPIO*_
 
 ```$xslt
-sudo python controller.py office
+sudo python slave_api_main.py office
 ```
