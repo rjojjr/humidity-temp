@@ -31,7 +31,7 @@ def server(thread):
 
     @app.route('/', methods=['GET'])
     def home():
-        return flask.jsonify({"msg": "pi-temp API"})
+        return flask.jsonify({"msg": "py-temp Slave API"})
 
     @app.route('/read', methods=['GET'])
     def read():

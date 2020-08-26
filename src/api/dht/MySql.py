@@ -49,6 +49,12 @@ class MySql:
                 print("An SQL error happened")
                 return ""
 
+    def latestReading(self, room):
+        statement = "SELECT temp, humidity FROM readings WHERE time = (SELECT MAX(time) FROM readings  WHERE room  = '" + room + "');"
+        result = self.executeStatementReturn(statement)
+        for i in result:
+            return [i[0], i[1]]
+
     def insertRecord(self, temp, humidity, room):
         now = datetime.datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
