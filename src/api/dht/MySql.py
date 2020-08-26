@@ -53,7 +53,7 @@ class MySql:
         statement = "SELECT temp, humidity FROM readings WHERE time = (SELECT MAX(time) FROM readings  WHERE room  = '" + room + "');"
         result = self.executeStatementReturn(statement)
         for i in result:
-            return [i[0], i[1]]
+            return [str(i[0]), str(i[1])]
 
     def insertRecord(self, temp, humidity, room):
         now = datetime.datetime.now()

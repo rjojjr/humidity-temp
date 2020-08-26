@@ -43,7 +43,7 @@ def server(thread):
     def summary(room):
         assert room == request.view_args['room']
         summary = SummaryService()
-        return flask.jsonify(summary.getSummary(room))
+        return flask.jsonify(summary.getSlaveSummary(room))
 
     app.run(host="0.0.0.0", port=5000, debug=True)
 
