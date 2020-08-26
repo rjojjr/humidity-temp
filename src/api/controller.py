@@ -3,6 +3,9 @@ from dht.read import Read
 
 from flask import request
 
+from dht.MySql import MySql
+from summary_service import SummaryService
+
 from dht.recording_thread import RecordingThread
 
 import threading
@@ -32,6 +35,12 @@ def server(thread):
         reader = Read()
         readings = reader.getTemp()
         return flask.jsonify({"temp": readings[0], "humidity": readings[1]})
+
+    @app.route('/summary/<room>', methods=['GET'])
+    def summary(room):
+        assert room == request.view_args['room']
+        summary = SummaryService()
+        return flask.jsonify(summary.getSummary(room))
 
     app.run(host="0.0.0.0", port=5000, debug=True)
 
