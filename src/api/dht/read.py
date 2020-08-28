@@ -1,4 +1,4 @@
-import dht.Adafruit_DHT
+import api.dht.Adafruit_DHT
 
 DHT_PIN = 4
 

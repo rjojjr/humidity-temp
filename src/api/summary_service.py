@@ -1,7 +1,7 @@
-from dht.read import Read
-from dht.MySql import MySql
+from api.dht.read import Read
+from api.dht.MySql import MySql
 import datetime
-from models.summary import Summary
+from api.models.summary import Summary
 
 class SummaryService:
 
