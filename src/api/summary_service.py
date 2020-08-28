@@ -24,7 +24,7 @@ class SummaryService:
         nowTime = datetime.datetime.today() + datetime.timedelta(days = 1)
         weekTime = datetime.datetime.today() - datetime.timedelta(days = 7)
         week = [str(self.sql.avgTempBetween(room, weekTime.strftime('%Y-%m-%d'), nowTime.strftime('%Y-%m-%d'))), str(self.sql.avgHumidityBetween(room, weekTime.strftime('%Y-%m-%d'), nowTime.strftime('%Y-%m-%d')))]
-        summary = Summary(now, day, week)
+        summary = Summary(now, day, week, room)
         return summary.__dict__
 
     def getSummaries(self, rooms):
