@@ -2,4 +2,4 @@
 
 sleep 30
 
-python main.py
+python src/master_api_main.py
