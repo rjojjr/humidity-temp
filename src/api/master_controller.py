@@ -38,7 +38,7 @@ def server():
         hum = request.args.get('humidity')
         room = request.args.get('room')
         sql = MySql()
-        sql.insertRecord(temp, humidity, room)
+        sql.insertRecord(temp, hum, room)
         return flask.jsonify({
         "msg": "okay"
         })
