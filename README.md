@@ -7,6 +7,10 @@ This project serves as a slave DHT22 API and will have a master API.
 
 Project trello board can be found [here](https://trello.com/b/IbhfP8vr/py-temp)
 
+You need the Trello improvements browser plugin to get story numbers.
+
+Branches will be named "story-<story #>"
+
 The readings will be stored in a MYSQL instance running in docker.
 
 ## Install Dependencies
