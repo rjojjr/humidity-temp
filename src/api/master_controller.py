@@ -49,7 +49,7 @@ def server():
         summary = SummaryService()
         return flask.jsonify(summary.getSummary(room))
 
-    @app.route('/summary', methods=['GET'])
+    @app.route('/summaries', methods=['GET'])
     def summaryAll():
         summary = SummaryService()
         return flask.jsonify(summary.getSummaries())
