@@ -16,7 +16,7 @@ def connect():
     if not sta_if.isconnected():
         print('connecting to network...')
         sta_if.active(True)
-        sta_if.connect('KSUnifi', '2112211221')
+        sta_if.connect('<ssid_here>', '<key_here>')
 
     print('network config:', sta_if.ifconfig())
 

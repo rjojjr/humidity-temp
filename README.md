@@ -53,6 +53,38 @@ python -m pip install mysql-connector-python
 
 _*NOTE: You must MySQL v8 or above because older versions do not support ARM CPU*_
 
+## Setup ESP32
+
+Install esptool:
+
+```$xslt
+pip install esptool
+```
+
+Erase esp32's flash:
+
+```$xslt
+esptool.py --port /dev/ttyUSB0 erase_flash
+```
+
+Download latest micropython firmware and flash it:
+
+```$xslt
+esptool.py --chip esp32 --port /dev/ttyUSB0 write_flash -z 0x1000 esp32-20180511-v1.9.4.bin
+```
+
+Install adafruit amply
+
+```
+ pip3 install esptool adafruit-ampy
+```
+
+Move files in esp folder to esp Ex:
+
+```
+ ampy -p COM3 put src/esp/boot.py
+```
+
 ## Running
 
 To run the slave API, launch slave_api_main.py with room/sensor name argument.
