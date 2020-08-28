@@ -5,6 +5,8 @@ with DHT22 digital temp and humidity sensor and TM1637 LED display.
 
 This project serves as a slave DHT22 API and will have a master API.
 
+Project trello board can be found [here](https://trello.com/b/IbhfP8vr/py-temp)
+
 The readings will be stored in a MYSQL instance running in docker.
 
 ## Install Dependencies

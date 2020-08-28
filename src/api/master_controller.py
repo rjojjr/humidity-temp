@@ -1,24 +1,21 @@
 import flask
-from dht.read import Read
 
 from flask import request
 
 from flask_cors import CORS
 
 from dht.MySql import MySql
-from summary_service import SummaryService
 
-from dht.recording_thread import RecordingThread
+from summary_service import SummaryService
 
 import threading
 
 app = flask.Flask(__name__)
 cors = CORS(app)
-def server(thread):
+def server():
 
     app.config["DEBUG"] = True
     def shutdown_server():
-        thread.stop()
         func = request.environ.get('werkzeug.server.shutdown')
         if func is None:
             raise RuntimeError('Not running with the Werkzeug Server')
@@ -31,24 +28,23 @@ def server(thread):
 
     @app.route('/', methods=['GET'])
     def home():
-        return flask.jsonify({"msg": "py-temp Slave API"})
-
-    @app.route('/read', methods=['GET'])
-    def read():
-        reader = Read()
-        readings = reader.getTemp()
-        return flask.jsonify({"temp": readings[0], "humidity": readings[1]})
+        return flask.jsonify({
+        "name": "py-temp Master API"
+        })
 
     @app.route('/summary/<room>', methods=['GET'])
     def summary(room):
         assert room == request.view_args['room']
         summary = SummaryService()
-        return flask.jsonify(summary.getSlaveSummary(room))
+        return flask.jsonify(summary.getSummary(room))
+
+    @app.route('/summary', methods=['GET'])
+    def summary():
+        summary = SummaryService()
+        return flask.jsonify(summary.getSummaries())
 
     app.run(host="0.0.0.0", port=5000, debug=True)
 
-def main(room):
-    thread = RecordingThread(1, "recorder", room)
-    thread.start()
-    server(thread)
+def main():
+    server()
 
