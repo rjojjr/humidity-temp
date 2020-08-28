@@ -4,9 +4,9 @@ from flask import request
 
 from flask_cors import CORS
 
-from dht.MySql import MySql
+from api.dht.MySql import MySql
 
-from summary_service import SummaryService
+from api.summary_service import SummaryService
 
 import threading
 
@@ -32,6 +32,15 @@ def server():
         "name": "py-temp Master API"
         })
 
+    @app.route('/esp/submit', methods=['GET'])
+    def espSub():
+        temp = request.args.get('temp')
+        hum = request.args.get('humidity')
+        room = request.args.get('room')
+        return flask.jsonify({
+        "msg": "okay"
+        })
+
     @app.route('/summary/<room>', methods=['GET'])
     def summary(room):
         assert room == request.view_args['room']
@@ -39,7 +48,7 @@ def server():
         return flask.jsonify(summary.getSummary(room))
 
     @app.route('/summary', methods=['GET'])
-    def summary():
+    def summaryAll():
         summary = SummaryService()
         return flask.jsonify(summary.getSummaries())
 

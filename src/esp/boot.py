@@ -8,6 +8,7 @@
 
 #webrepl.start()
 
+import driver
 
 def connect():
     import network
@@ -15,12 +16,14 @@ def connect():
     if not sta_if.isconnected():
         print('connecting to network...')
         sta_if.active(True)
-        sta_if.connect('<ssid>', '<key>')
-        while not sta_if.isconnected():
-            pass
+        sta_if.connect('KSUnifi', '2112211221')
+
     print('network config:', sta_if.ifconfig())
 
 def no_debug():
     import esp
     # this can be run from the REPL as well
     esp.osdebug(None)
+
+connect()
+driver.main()
