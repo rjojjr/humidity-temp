@@ -30,11 +30,11 @@ class SummaryService:
     def getSummaries(self, rooms):
          summaries = []
          for room in rooms:
-            summaries.append(getSummary(room))
+            summaries.append(self.getSummary(room))
          return summaries
 
     def getSummaries(self):
           summaries = []
           for room in self.sql.getRooms():
-             summaries.append(getSummary(room))
+             summaries.append(self.getSummary(room))
           return summaries
