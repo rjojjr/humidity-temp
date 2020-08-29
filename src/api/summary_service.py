@@ -19,7 +19,7 @@ class SummaryService:
         return summary.__dict__
 
     def getSummary(self, room):
-        latest = self.sql.latestReading(room)
+        latest = self.sql.latestReadingWithTime(room)
         now = [latest[0], latest[1]]
         day = [str(self.sql.avgTempToday(room)), str(self.sql.avgHumidityToday(room))]
         nowTime = datetime.datetime.today() + datetime.timedelta(days = 1)
