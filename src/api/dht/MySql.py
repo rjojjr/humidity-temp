@@ -59,7 +59,7 @@ class MySql:
             statement = "SELECT temp, humidity, time FROM readings WHERE time = (SELECT MAX(time) FROM readings  WHERE room  = '" + room + "');"
             result = self.executeStatementReturn(statement)
             for i in result:
-                return [str(i[0]), str(i[1]), str(i[2]]
+                return [str(i[0]), str(i[1]), str(i[2])]
 
     def getRooms(self):
         statement = "SELECT DISTINCT room FROM readings"
