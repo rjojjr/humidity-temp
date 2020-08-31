@@ -1,7 +1,7 @@
 import Adafruit_DHT
 from machine import Pin
 
-dhtDevice = Adafruit_DHT.DHT22(board.D15)
+dhtDevice = Adafruit_DHT.DHT22(Pin(15))
 
 def read():
     print('reading...')
