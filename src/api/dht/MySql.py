@@ -1,6 +1,8 @@
 import mysql.connector
 import datetime
 
+import uuid
+
 #Debug SQL
 SQL_DEBUG = 1
 
@@ -96,6 +98,12 @@ class MySql:
         result = self.executeStatementReturn(statement)
         for i in result:
             return i[0]
+
+    def submitSmsNotification(self, recipients, message, subject):
+        now = datetime.datetime.now()
+        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+        statement = "INSERT INTO notifications (`uuid`, `type`, `sent`, `subject`, `message`, `recipients`, `generated_time`, `sent_time`) VALUES ('" + uuid.uuid1() + "','sms','f','"  + subject + "','"  + message + "','"  + recipients + "','"  + formatted_date + "','"  + formatted_date + "');"
+        result = self.executeStatementReturn(statement)
 
     def avgHumidity(self, room):
         statement = "SELECT AVG(humidity) 'Average Humidity' FROM readings WHERE room = '" + room + "';"
