@@ -107,12 +107,14 @@ class MySql:
 
     def getUnsentSmsNotifications(self, room, start, stop):
         now = datetime.datetime.today()
-        tom = now + datetime.timedelta(days = 1)
+        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
         statement = "SELECT `id`, `uuid`, `type`, `sent`, `subject`, `message`, `recipients`, `generated_time` FROM notifications WHERE sent = 'f';"
         result = self.executeStatementReturn(statement)
         notifications = []
         for i in result:
             notifications.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]])
+            statement = "UPDATE notifications SET sent = 't', sent_time =  '" + formatted_date + "' WHERE id = '" + i[0] + "';"
+            self.executeStatement(statement)
         return notifications
 
     def avgHumidity(self, room):
