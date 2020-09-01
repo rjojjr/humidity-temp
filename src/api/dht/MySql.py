@@ -103,7 +103,17 @@ class MySql:
         now = datetime.datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
         statement = "INSERT INTO notifications (`uuid`, `type`, `sent`, `subject`, `message`, `recipients`, `generated_time`, `sent_time`) VALUES ('" + uuid.uuid1() + "','sms','f','"  + subject + "','"  + message + "','"  + recipients + "','"  + formatted_date + "','"  + formatted_date + "');"
+        self.executeStatement(statement)
+
+    def getUnsentSmsNotifications(self, room, start, stop):
+        now = datetime.datetime.today()
+        tom = now + datetime.timedelta(days = 1)
+        statement = "SELECT `id`, `uuid`, `type`, `sent`, `subject`, `message`, `recipients`, `generated_time` FROM notifications WHERE sent = 'f';"
         result = self.executeStatementReturn(statement)
+        notifications = []
+        for i in result:
+            notifications.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]])
+        return notifications
 
     def avgHumidity(self, room):
         statement = "SELECT AVG(humidity) 'Average Humidity' FROM readings WHERE room = '" + room + "';"
