@@ -12,6 +12,8 @@ from dht.recording_thread import RecordingThread
 
 import threading
 
+readInterval = 60
+
 app = flask.Flask(__name__)
 cors = CORS(app)
 def server(thread):
@@ -48,7 +50,7 @@ def server(thread):
     app.run(host="0.0.0.0", port=5000, debug=True)
 
 def main(room):
-    thread = RecordingThread(1, "recorder", room)
+    thread = RecordingThread(1, "recorder", room, readInterval)
     thread.start()
     server(thread)
 

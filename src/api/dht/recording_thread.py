@@ -27,11 +27,12 @@ class RecordingThread (threading.Thread):
     room = ""
     run = True
 
-    def __init__(self, threadID, name, room):
+    def __init__(self, threadID, name, room, readInterval):
           threading.Thread.__init__(self)
           self.threadID = threadID
           self.name = name
           self.room = room
+          self.readInterval = readInterval
 
     def getTemp(self):
         sensor = Adafruit_DHT.DHT22
@@ -66,4 +67,4 @@ class RecordingThread (threading.Thread):
         while self.run:
             print("Reading...")
             self.getTemp()
-            time.sleep(15)
+            time.sleep(self.readInterval)
