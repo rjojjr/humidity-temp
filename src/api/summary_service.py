@@ -52,8 +52,8 @@ class SummaryService:
         intervals = []
         if (intervalRequest.startDate == intervalRequest.endDate):
             for i in range(0, 23):
-                sDate = date(startDate) + datetime.timedelta(hours = (i - 1)
-                eDate = date(startDate) + datetime.timedelta(hours = (i + 1)
+                sDate = date(startDate) + datetime.timedelta(hours = (i - 1))
+                eDate = date(startDate) + datetime.timedelta(hours = (i + 1))
                 office = self.sql.avgTempBetween("office", sDate, endDate)
                 bedroom = self.sql.avgTempBetween("bedroom", sDate, endDate)
                 freezer = self.sql.avgTempBetween("freezer", sDate, endDate)
