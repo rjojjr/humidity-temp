@@ -145,6 +145,14 @@ class MySql:
         for i in result:
             print("id: " + str(i[0]) + " room: " + i[1] + " temp: " + str(i[2]) + " humidity: " + str(i[3]) + " time: " + str(i[4]))
 
+    def getAllReadings(self, room, startDate, endDate):
+        statement = "SELECT * FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + startDate + "' AND '" + endDate + "';"
+        result = self.executeStatementReturn(statement)
+        r = []
+        for i in result:
+            r.append(i)
+        return r
+
     def runQuery(self, statement):
         result = self.executeStatementReturn(statement)
         for i in result:
