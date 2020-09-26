@@ -45,7 +45,6 @@ class SummaryService:
           return summaries
 
     def getChart(self, intervalRequest):
-        print(intervalRequest.type)
         if intervalRequest.type == "temp":
             return Intervals(self.getTempChart(intervalRequest)).__dict__
         return []
@@ -70,6 +69,8 @@ class SummaryService:
         else:
             sdt = intervalRequest.startDate.split("-")
             edt = intervalRequest.endDate.split("-")
+            print(int(sdt[1]))
+            print(int(edt[1]))
             if int(sdt[1]) == int(edt[1]):
                 for i in range(int(sdt[1]), int(edt[1])):
                     for k in range(0, 23):
