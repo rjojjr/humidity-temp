@@ -52,11 +52,12 @@ class SummaryService:
     def getTempChart(self, intervalRequest):
         intervals = []
         if intervalRequest.startDate == intervalRequest.endDate:
+            dt = intervalRequest.startDate.split("-")
             for i in range(0, 23):
                 if i == 0:
-                    sDate = datetime.date(intervalRequest.startDate) + datetime.timedelta(hours = (0))
+                    sDate = datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = 0)
                 else:
-                    sDate = datetime.date(intervalRequest.startDate) + datetime.timedelta(hours = (i - 1))
+                    sDate = datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = (i - 1))
                 eDate = datetime.date(intervalRequest.startDate) + datetime.timedelta(hours = (i + 1))
                 office = self.sql.avgTempBetween("office", sDate, eDate)
                 bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
