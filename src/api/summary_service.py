@@ -44,8 +44,9 @@ class SummaryService:
           return summaries
 
     def getChart(self, intervalRequest):
-        if (intervalRequest.type == "temp"):
-            return getTempChart(intervalRequest)
+        print(intervalRequest.type)
+        if intervalRequest.type == "temp":
+            return self.getTempChart(intervalRequest)
         return []
 
     def getTempChart(self, intervalRequest):
