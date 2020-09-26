@@ -67,5 +67,25 @@ class SummaryService:
                 outside = self.sql.avgTempBetween("outside", sDate, eDate)
                 interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
                 intervals.append(interval.__dict__)
+        else:
+            sdt = intervalRequest.startDate.split("-")
+            edt = intervalRequest.endDate.split("-")
+            if int(sdt[1]) == int(edt[1]):
+                for i in range(int(sdt[1]), int(edt[1])):
+                    for k in range(0, 23):
+                        if (k % 4) == 0:
+                            avgDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
+                            if i == 0:
+                                sDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
+                            else:
+                                sDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = (i - 4))).strftime('%Y-%m-%d %H:%M:%S')
+                            eDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = (i + 4))).strftime('%Y-%m-%d %H:%M:%S')
+                            office = self.sql.avgTempBetween("office", sDate, eDate)
+                            bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
+                            freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
+                            outside = self.sql.avgTempBetween("outside", sDate, eDate)
+                            interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
+                            intervals.append(interval.__dict__)
+
 
         return intervals
