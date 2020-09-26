@@ -6,6 +6,8 @@ from flask_cors import CORS
 
 from api.dht.MySql import MySql
 
+from api.models import IntervalRequest
+
 from api.summary_service import SummaryService
 
 import threading
@@ -53,6 +55,12 @@ def server():
     def summaryAll():
         summary = SummaryService()
         return flask.jsonify(summary.getSummaries())
+
+    @app.route('/chart', methods=['POST'])
+    def chart():
+        request = IntervalRequest(request.form['type'], request.form['startDate'], request.form['endDate'])
+        summary = SummaryService()
+        return flask.jsonify(summary.getChart(request)
 
     app.run(host="0.0.0.0", port=8080, debug=True)
 

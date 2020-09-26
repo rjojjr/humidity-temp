@@ -45,7 +45,6 @@ class SummaryService:
             return getTempChart(intervalRequest)
         return []
 
-
     def getTempChart(self, intervalRequest):
         intervals = []
         if (intervalRequest.startDate == intervalRequest.endDate):
