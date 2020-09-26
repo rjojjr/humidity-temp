@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 from api.dht.MySql import MySql
 
-from api.models import IntervalRequest
+from api.models.interval_request import IntervalRequest
 
 from api.summary_service import SummaryService
 

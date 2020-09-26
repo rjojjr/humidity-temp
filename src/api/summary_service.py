@@ -3,6 +3,9 @@ from api.dht.MySql import MySql
 import datetime
 from api.models.summary import Summary
 
+from api.models.interval_request import IntervalRequest
+from api.models.interval import Interval
+
 class SummaryService:
 
     def __init__(self):
