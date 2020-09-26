@@ -1,5 +1,6 @@
 class Interval:
-    def __init__(self, office, bedroom, freezer, outside):
+    def __init__(self, time, office, bedroom, freezer, outside):
+        self.time = time
         self.office = office
         self.bedroom = bedroom
         self.freezer = freezer

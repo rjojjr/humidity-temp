@@ -55,6 +55,7 @@ class SummaryService:
         if intervalRequest.startDate == intervalRequest.endDate:
             dt = intervalRequest.startDate.split("-")
             for i in range(0, 23):
+                avgDate = datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = i).strftime('%Y-%m-%d %H:%M:%S')
                 if i == 0:
                     sDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
                 else:
@@ -64,7 +65,7 @@ class SummaryService:
                 bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
                 freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
                 outside = self.sql.avgTempBetween("office", sDate, eDate)
-                interval = Interval(str(office), str(bedroom), str(freezer), str(outside))
+                interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
                 intervals.append(interval.__dict__)
 
         return intervals
