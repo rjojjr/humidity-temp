@@ -55,7 +55,7 @@ class SummaryService:
         if intervalRequest.startDate == intervalRequest.endDate:
             dt = intervalRequest.startDate.split("-")
             for i in range(0, 23):
-                avgDate = datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = i).strftime('%Y-%m-%d %H:%M:%S')
+                avgDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = i)).strftime('%Y-%m-%d %H:%M:%S')
                 if i == 0:
                     sDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
                 else:
