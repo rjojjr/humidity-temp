@@ -77,8 +77,8 @@ class SummaryService:
                             if i == 0:
                                 sDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
                             else:
-                                sDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = (i - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                            eDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = (i + 1))).strftime('%Y-%m-%d %H:%M:%S')
+                                sDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                            eDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
                             office = self.sql.avgTempBetween("office", sDate, eDate)
                             bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
                             freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
