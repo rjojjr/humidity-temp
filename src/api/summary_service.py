@@ -53,7 +53,10 @@ class SummaryService:
         intervals = []
         if intervalRequest.startDate == intervalRequest.endDate:
             for i in range(0, 23):
-                sDate = datetime.date(intervalRequest.startDate) + datetime.timedelta(hours = (i - 1))
+                if i == 0:
+                    sDate = datetime.date(intervalRequest.startDate) + datetime.timedelta(hours = (0))
+                else:
+                    sDate = datetime.date(intervalRequest.startDate) + datetime.timedelta(hours = (i - 1))
                 eDate = datetime.date(intervalRequest.startDate) + datetime.timedelta(hours = (i + 1))
                 office = self.sql.avgTempBetween("office", sDate, eDate)
                 bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
