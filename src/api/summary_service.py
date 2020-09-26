@@ -74,7 +74,7 @@ class SummaryService:
             if int(sdt[1]) == int(edt[1]):
                 for i in range(int(sdt[1]), int(edt[1])):
                     for k in range(0, 23):
-                        if (k % 4) == 0:
+                        if ((k % 4) == 0):
                             avgDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
                             if i == 0:
                                 sDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
