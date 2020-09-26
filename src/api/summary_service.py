@@ -70,6 +70,7 @@ class SummaryService:
             sdt = intervalRequest.startDate.split("-")
             edt = intervalRequest.endDate.split("-")
             if int(sdt[1]) == int(edt[1]):
+                print("here")
                 for i in range(int(sdt[2]), int(edt[2])):
                     print(i)
                     for k in range(0, 23):
