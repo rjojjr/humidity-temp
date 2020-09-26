@@ -59,5 +59,5 @@ class SummaryService:
                 freezer = self.sql.avgTempBetween("freezer", sDate, endDate)
                 outside = self.sql.avgTempBetween("office", sDate, endDate)
                 intervals.append(Interval(office, bedroom, freezer, outside))
-                
+
         return intervals

@@ -58,9 +58,9 @@ def server():
 
     @app.route('/chart', methods=['POST'])
     def chart():
-        request = IntervalRequest(request.form['type'], request.form['startDate'], request.form['endDate'])
+        req = IntervalRequest(request.form['type'], request.form['startDate'], request.form['endDate'])
         summary = SummaryService()
-        return flask.jsonify(summary.getChart(request))
+        return flask.jsonify(summary.getChart(req))
 
     app.run(host="0.0.0.0", port=8080, debug=True)
 
