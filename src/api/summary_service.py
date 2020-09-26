@@ -69,10 +69,8 @@ class SummaryService:
         else:
             sdt = intervalRequest.startDate.split("-")
             edt = intervalRequest.endDate.split("-")
-            print(int(sdt[1]))
-            print(int(edt[1]))
             if int(sdt[1]) == int(edt[1]):
-                for i in range(int(sdt[1]), int(edt[1])):
+                for i in range(int(sdt[2]), int(edt[2])):
                     for k in range(0, 23):
                         if ((k % 4) == 0):
                             avgDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
