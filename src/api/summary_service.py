@@ -39,3 +39,6 @@ class SummaryService:
           for room in self.sql.getRooms():
              summaries.append(self.getSummary(room))
           return summaries
+
+    def getChart(self, intervalRequest):
+
