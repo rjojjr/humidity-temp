@@ -5,6 +5,7 @@ from api.models.summary import Summary
 
 from api.models.interval_request import IntervalRequest
 from api.models.interval import Interval
+from api.models.interval import Intervals
 
 class SummaryService:
 
@@ -46,7 +47,7 @@ class SummaryService:
     def getChart(self, intervalRequest):
         print(intervalRequest.type)
         if intervalRequest.type == "temp":
-            return self.getTempChart(intervalRequest)
+            return Intervals(self.getTempChart(intervalRequest)).__dict__
         return []
 
     def getTempChart(self, intervalRequest):
@@ -63,6 +64,6 @@ class SummaryService:
                 bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
                 freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
                 outside = self.sql.avgTempBetween("office", sDate, eDate)
-                intervals.append(Interval(office, bedroom, freezer, outside))
+                intervals.append(Interval(office, bedroom, freezer, outside).__dict__)
 
         return intervals
