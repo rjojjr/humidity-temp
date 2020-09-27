@@ -130,7 +130,7 @@ class SummaryService:
     def getDay(self, intervals, j, q, i, sdt, edt):
         avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
         for k in range(0, 23):
-            if ((k % 4) == 0):
+            if ((k % 6) == 0):
                 if i == 0:
                     sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
                 else:
