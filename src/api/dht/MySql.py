@@ -4,6 +4,8 @@ import datetime
 import uuid
 
 #Debug SQL
+from api.models.summary import Summary
+
 SQL_DEBUG = 1
 
 class MySql:
