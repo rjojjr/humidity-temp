@@ -109,7 +109,7 @@ class SummaryService:
         if sMonth == eMonth:
             self.getMonth(intervals, j, sMonth, sdt, edt)
         else:
-            for q in range(sMonth, eMonth):
+            for q in range(sMonth, eMonth + 1):
                 self.getMonth(intervals, j, q, sdt, edt)
 
     def getMonth(self, intervals, j, q, sdt, edt):
@@ -125,11 +125,11 @@ class SummaryService:
         if sDay == eDay:
             self.getDay(intervals, j, q, sDay, sdt, edt)
         else:
-            for i in range(sDay, eDay):
+            for i in range(sDay, eDay + 1):
                 self.getDay(intervals, j, q, i, sdt, edt)
 
     def getDay(self, intervals, j, q, i, sdt, edt):
-        for k in range(0, 23):
+        for k in range(0, 25):
             if ((k % 6) == 0):
                 avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
                 if i == 0:
