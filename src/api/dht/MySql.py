@@ -79,7 +79,7 @@ class MySql:
         result = self.executeStatementReturn(statement)
         for i in result:
             for q in i:
-                latest.append(q[0])
+                latest.append(q)
 
         now = [latest[0], latest[1]]
         day = [latest[3], latest[4]]
