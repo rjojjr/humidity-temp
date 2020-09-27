@@ -13,7 +13,7 @@ class MySql:
     def executeStatement(self, statement):
         try:
             mydb = mysql.connector.connect(
-                host="192.168.1.12",
+                host="localhost",
                 port="3306",
                 user="pythonuser",
                 password="UEAkJFcwcmRQQCQkVzByZAo=",
@@ -33,7 +33,7 @@ class MySql:
     def executeStatementReturn(self, statement):
             try:
                 mydb = mysql.connector.connect(
-                    host="192.168.1.12",
+                    host="localhost",
                     port="3306",
                     user="pythonuser",
                     password="UEAkJFcwcmRQQCQkVzByZAo=",
