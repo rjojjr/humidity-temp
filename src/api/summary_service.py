@@ -9,6 +9,21 @@ from api.models.interval import Intervals
 
 class SummaryService:
 
+    daysInMonth = [
+        31,
+        28,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31
+    ]
+
     def __init__(self):
         self.sql = MySql()
         self.read = Read()
