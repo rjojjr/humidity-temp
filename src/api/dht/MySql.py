@@ -78,7 +78,9 @@ class MySql:
         latest = []
         result = self.executeStatementReturn(statement)
         for i in result:
-            latest.append(i[0])
+            for q in i:
+                latest.append(q[0])
+
         now = [latest[0], latest[1]]
         day = [latest[3], latest[4]]
         week = [latest[5], latest[6]]
