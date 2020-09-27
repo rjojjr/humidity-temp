@@ -126,9 +126,9 @@ class SummaryService:
         else:
             for i in range(sDay, eDay):
                 self.getDay(intervals, j, q, i, sdt, edt)
-                
+
     def getDay(self, intervals, j, q, i, sdt, edt):
-        avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
+        avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
         for k in range(0, 23):
             if ((k % 4) == 0):
                 if i == 0:
