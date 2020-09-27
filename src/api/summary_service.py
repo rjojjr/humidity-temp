@@ -64,14 +64,6 @@ class SummaryService:
                 bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
                 freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
                 outside = self.sql.avgTempBetween("outside", sDate, eDate)
-                if office == None:
-                    office = 0.0
-                if bedroom == None:
-                    bedroom = 0.0
-                if freezer == None:
-                    freezer = 0.0
-                if outside == None:
-                    outside = 0.0
                 interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
                 intervals.append(interval.__dict__)
         else:
@@ -91,14 +83,6 @@ class SummaryService:
                             bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
                             freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
                             outside = self.sql.avgTempBetween("outside", sDate, eDate)
-                            if office == None:
-                                office = 0.0
-                            if bedroom == None:
-                                bedroom = 0.0
-                            if freezer == None:
-                                freezer = 0.0
-                            if outside == None:
-                                outside = 0.0
                             interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
                             intervals.append(interval.__dict__)
 
