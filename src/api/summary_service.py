@@ -94,7 +94,7 @@ class SummaryService:
         return intervals
 
     def getIntervals(self, intervals, j , sdt, edt):
-        if int(edt[0]) == j & int(sdt[0]) == int(edt[0]):
+        if int(edt[0]) == j and int(sdt[0]) == int(edt[0]):
             sMonth = int(sdt[1])
             eMonth = int(edt[1])
         elif int(edt[0]) == j:
@@ -113,10 +113,10 @@ class SummaryService:
                 self.getMonth(intervals, j, q, sdt, edt)
 
     def getMonth(self, intervals, j, q, sdt, edt):
-        if int(edt[1]) == q & int(edt[0]) == j & int(sdt[0]) == j & int(sdt[1]) == q:
+        if int(edt[1]) == q and int(edt[0]) == j and int(sdt[0]) == j and int(sdt[1]) == q:
             sDay = int(sdt[2])
             eDay = int(edt[2])
-        elif int(edt[1]) == q & int(edt[0]) == j:
+        elif int(edt[1]) == q and int(edt[0]) == j:
             sDay = 1
             eDay = int(edt[2])
         else:
