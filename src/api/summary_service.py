@@ -9,24 +9,23 @@ from api.models.interval import Intervals
 
 class SummaryService:
 
-    daysInMonth = [
-        31,
-        28,
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31
-    ]
-
     def __init__(self):
         self.sql = MySql()
         self.read = Read()
+        self.daysInMonth = [
+            31,
+            28,
+            31,
+            30,
+            31,
+            30,
+            31,
+            31,
+            30,
+            31,
+            30,
+            31
+        ]
 
     def getSlaveSummary(self, room):
         now = self.read.getTemp()
@@ -84,22 +83,44 @@ class SummaryService:
         else:
             sdt = intervalRequest.startDate.split("-")
             edt = intervalRequest.endDate.split("-")
-            if int(sdt[1]) == int(edt[1]):
-                for i in range(int(sdt[2]), int(edt[2])):
-                    for k in range(0, 23):
-                        if ((k % 4) == 0):
-                            avgDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
-                            if i == 0:
-                                sDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                            else:
-                                sDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                            eDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), i, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
-                            office = self.sql.avgTempBetween("office", sDate, eDate)
-                            bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
-                            freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
-                            outside = self.sql.avgTempBetween("outside", sDate, eDate)
-                            interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
-                            intervals.append(interval.__dict__)
+            for j in range(int(sdt[0]), int(edt[0])):
+                if int(edt[0]) == j & int(sdt[0]) == int(edt[0]):
+                    sMonth = int(sdt[1])
+                    eMonth = int(edt[1])
+                elif int(edt[0]) == j:
+                    sMonth = 1
+                    eMonth = int(edt[1])
+                elif int(sdt[0]) == j:
+                    sMonth = int(sdt[1])
+                    eMonth = 12
+                else:
+                    sMonth = 1
+                    eMonth = 12
+                for q in range(sMonth, eMonth):
+                    if int(edt[1]) == q & int(edt[0]) == j & int(sdt[0]) == j & int(sdt[1]) == q:
+                        sDay = int(sdt[2])
+                        eDay = int(edt[2])
+                    elif int(edt[1]) == q & int(edt[0]) == j:
+                        sDay = 1
+                        eDay = int(edt[2])
+                    else:
+                        sDay = 1
+                        eDay = self.daysInMonth[q]
+                    for i in range(sDay, eDay):
+                        avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
+                        for k in range(0, 23):
+                            if ((k % 4) == 0):
+                                if i == 0:
+                                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                                else:
+                                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                                eDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
+                                office = self.sql.avgTempBetween("office", sDate, eDate)
+                                bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
+                                freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
+                                outside = self.sql.avgTempBetween("outside", sDate, eDate)
+                                interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
+                                intervals.append(interval.__dict__)
 
 
         return intervals
