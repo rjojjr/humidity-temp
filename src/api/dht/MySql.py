@@ -4,7 +4,7 @@ import datetime
 import uuid
 
 #Debug SQL
-from src.api.models.summary import Summary
+from api.models.summary import Summary
 
 SQL_DEBUG = 1
 
