@@ -4,6 +4,8 @@ import datetime
 import uuid
 
 #Debug SQL
+from src.api.models.summary import Summary
+
 SQL_DEBUG = 1
 
 class MySql:
@@ -62,6 +64,26 @@ class MySql:
             result = self.executeStatementReturn(statement)
             for i in result:
                 return [str(i[0]), str(i[1]), str(i[2])]
+
+    def getRoomSummary(self, room):
+        statement = "SELECT temp, humidity, time FROM readings WHERE time = (SELECT MAX(time) FROM readings  WHERE room  = '" + room + "');"
+        now = datetime.datetime.today()
+        tom = now + datetime.timedelta(days = 1)
+        nowTime = datetime.datetime.today() + datetime.timedelta(days = 1)
+        weekTime = datetime.datetime.today() - datetime.timedelta(days = 7)
+        statement + "SELECT AVG(temp) 'Average Temp' FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + now.strftime('%Y-%m-%d') + "' AND '" + tom.strftime('%Y-%m-%d') + "';"
+        statement + "SELECT AVG(humidity) 'Average Temp' FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + now.strftime('%Y-%m-%d') + "' AND '" + tom.strftime('%Y-%m-%d') + "';"
+        statement + "SELECT AVG(temp) 'Average Temp' FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + weekTime.strftime('%Y-%m-%d') + "' AND '" + nowTime.strftime('%Y-%m-%d') + "';"
+        statement + "SELECT AVG(humidity) 'Average Temp' FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + weekTime.strftime('%Y-%m-%d') + "' AND '" + nowTime.strftime('%Y-%m-%d') + "';"
+        latest = []
+        result = self.executeStatementReturn(statement)
+        for i in result:
+            latest.append(i[0])
+        now = [latest[0], latest[1]]
+        day = [latest[3], latest[4]]
+        week = [latest[5], latest[6]]
+        summary = Summary(now, day, week, room, latest[2])
+        return summary.__dict__
 
     def getRooms(self):
         statement = "SELECT DISTINCT room FROM readings"
