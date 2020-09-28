@@ -157,5 +157,5 @@ class SummaryService:
                 bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
                 freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
                 outside = self.sql.avgTempBetween("outside", sDate, eDate)
-                interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
+                interval = Interval(avgDate, [str(office[0]), str(office[1])], [str(bedroom[0]), str(bedroom[1])], [str(freezer[0]), str(freezer[1])], [str(outside[0]), str(outside[1])])
                 intervals.append(interval.__dict__)
