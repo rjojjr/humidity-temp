@@ -133,6 +133,14 @@ class MySql:
         for i in result:
             return i[0]
 
+    def avgTempDiffBetween(self, room, start, stop):
+        now = datetime.datetime.today()
+        tom = now + datetime.timedelta(days = 1)
+        statement = "SELECT MAX(temp), MIN(temp) 'Average Temp' FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + start + "' AND '" + stop + "';"
+        result = self.executeStatementReturn(statement)
+        for i in result:
+            return [i[0], i[1]]
+
     def avgHumidityBetween(self, room, start, stop):
         now = datetime.datetime.today()
         tom = now + datetime.timedelta(days = 1)
