@@ -159,7 +159,7 @@ class SummaryService:
                 if type == "avg":
                     self.getDayAvg(intervals, j, q, i, sdt, edt)
                 else:
-                    self.getDayDiff(intervals, j, q, sDay, sdt, edt)
+                    self.getDayDiff(intervals, j, q, i, sdt, edt)
 
 
     def getDayAvg(self, intervals, j, q, i, sdt, edt):
