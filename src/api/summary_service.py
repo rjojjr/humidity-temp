@@ -171,9 +171,9 @@ class SummaryService:
                 else:
                     sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
                 eDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
-                office = self.sql.avgTempBetween("office", sDate, eDate)
-                bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
-                freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
-                outside = self.sql.avgTempBetween("outside", sDate, eDate)
+                office = self.sql.avgTempDiffBetween("office", sDate, eDate)
+                bedroom = self.sql.avgTempDiffBetween("bedroom", sDate, eDate)
+                freezer = self.sql.avgTempDiffBetween("freezer", sDate, eDate)
+                outside = self.sql.avgTempDiffBetween("outside", sDate, eDate)
                 interval = Interval(avgDate, [str(office[0]), str(office[1])], [str(bedroom[0]), str(bedroom[1])], [str(freezer[0]), str(freezer[1])], [str(outside[0]), str(outside[1])])
                 intervals.append(interval.__dict__)
