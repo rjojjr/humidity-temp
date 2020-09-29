@@ -61,6 +61,8 @@ class SummaryService:
     def getChart(self, intervalRequest):
         if intervalRequest.type == "temp":
             return Intervals(self.getTempAvgChart(intervalRequest)).__dict__
+        else:
+            return Intervals(self.getTempDiffChart(intervalRequest)).__dict__
         return []
 
     def getTempAvgChart(self, intervalRequest):
@@ -85,15 +87,24 @@ class SummaryService:
             sdt = intervalRequest.startDate.split("-")
             edt = intervalRequest.endDate.split("-")
             if int(sdt[0]) == int(edt[0]):
-                self.getAvgIntervals(intervals, int(sdt[0]), sdt, edt)
+                self.getAvgIntervals("avg", intervals, int(sdt[0]), sdt, edt)
             else:
                 for j in range(int(sdt[0]), int(edt[0])):
-                    self.getAvgIntervals(intervals, j, sdt, edt)
-
-
+                    self.getAvgIntervals("avg", intervals, j, sdt, edt)
         return intervals
 
-    def getAvgIntervals(self, intervals, j, sdt, edt):
+    def getTempDiffChart(self, intervalRequest):
+        intervals = []
+        sdt = intervalRequest.startDate.split("-")
+        edt = intervalRequest.endDate.split("-")
+        if int(sdt[0]) == int(edt[0]):
+            self.getAvgIntervals("diff", intervals, int(sdt[0]), sdt, edt)
+        else:
+            for j in range(int(sdt[0]), int(edt[0])):
+                self.getAvgIntervals("diff", intervals, j, sdt, edt)
+        return intervals
+
+    def getAvgIntervals(self, type, intervals, j, sdt, edt):
         if int(edt[0]) == j and int(sdt[0]) == int(edt[0]):
             sMonth = int(sdt[1])
             eMonth = int(edt[1])
@@ -107,12 +118,12 @@ class SummaryService:
             sMonth = 1
             eMonth = 12
         if sMonth == eMonth:
-            self.getMonthAvg(intervals, j, sMonth, sdt, edt)
+            self.getMonthAvg(type, intervals, j, sMonth, sdt, edt)
         else:
             for q in range(sMonth, eMonth + 1):
-                self.getMonthAvg(intervals, j, q, sdt, edt)
+                self.getMonthAvg(type, intervals, j, q, sdt, edt)
 
-    def getMonthAvg(self, intervals, j, q, sdt, edt):
+    def getMonthAvg(self, type, intervals, j, q, sdt, edt):
         if int(edt[1]) == q and int(edt[0]) == j and int(sdt[0]) == j and int(sdt[1]) == q:
             sDay = int(sdt[2])
             eDay = int(edt[2])
@@ -123,10 +134,17 @@ class SummaryService:
             sDay = 1
             eDay = self.daysInMonth[q]
         if sDay == eDay:
-            self.getDayAvg(intervals, j, q, sDay, sdt, edt)
+            if type == "avg":
+                self.getDayAvg(intervals, j, q, sDay, sdt, edt)
+            else:
+                self.getDayDiff(intervals, j, q, sDay, sdt, edt)
         else:
             for i in range(sDay, eDay + 1):
-                self.getDayAvg(intervals, j, q, i, sdt, edt)
+                if type == "avg":
+                    self.getDayAvg(intervals, j, q, i, sdt, edt)
+                else:
+                    self.getDayDiff(intervals, j, q, sDay, sdt, edt)
+
 
     def getDayAvg(self, intervals, j, q, i, sdt, edt):
         for k in range(0, 25):
