@@ -60,10 +60,12 @@ class SummaryService:
 
     def getChart(self, intervalRequest):
         if intervalRequest.type == "temp":
-            return Intervals(self.getTempChart(intervalRequest)).__dict__
+            return Intervals(self.getTempAvgChart(intervalRequest)).__dict__
+        else:
+            return Intervals(self.getTempDiffChart(intervalRequest)).__dict__
         return []
 
-    def getTempChart(self, intervalRequest):
+    def getTempAvgChart(self, intervalRequest):
         intervals = []
         if intervalRequest.startDate == intervalRequest.endDate:
             dt = intervalRequest.startDate.split("-")
@@ -85,15 +87,24 @@ class SummaryService:
             sdt = intervalRequest.startDate.split("-")
             edt = intervalRequest.endDate.split("-")
             if int(sdt[0]) == int(edt[0]):
-                self.getIntervals(intervals, int(sdt[0]), sdt, edt)
+                self.getAvgIntervals("avg", intervals, int(sdt[0]), sdt, edt)
             else:
                 for j in range(int(sdt[0]), int(edt[0])):
-                    self.getIntervals(intervals, j, sdt, edt)
-
-
+                    self.getAvgIntervals("avg", intervals, j, sdt, edt)
         return intervals
 
-    def getIntervals(self, intervals, j , sdt, edt):
+    def getTempDiffChart(self, intervalRequest):
+        intervals = []
+        sdt = intervalRequest.startDate.split("-")
+        edt = intervalRequest.endDate.split("-")
+        if int(sdt[0]) == int(edt[0]):
+            self.getAvgIntervals("diff", intervals, int(sdt[0]), sdt, edt)
+        else:
+            for j in range(int(sdt[0]), int(edt[0])):
+                self.getAvgIntervals("diff", intervals, j, sdt, edt)
+        return intervals
+
+    def getAvgIntervals(self, type, intervals, j, sdt, edt):
         if int(edt[0]) == j and int(sdt[0]) == int(edt[0]):
             sMonth = int(sdt[1])
             eMonth = int(edt[1])
@@ -107,12 +118,12 @@ class SummaryService:
             sMonth = 1
             eMonth = 12
         if sMonth == eMonth:
-            self.getMonth(intervals, j, sMonth, sdt, edt)
+            self.getMonthAvg(type, intervals, j, sMonth, sdt, edt)
         else:
             for q in range(sMonth, eMonth + 1):
-                self.getMonth(intervals, j, q, sdt, edt)
+                self.getMonthAvg(type, intervals, j, q, sdt, edt)
 
-    def getMonth(self, intervals, j, q, sdt, edt):
+    def getMonthAvg(self, type, intervals, j, q, sdt, edt):
         if int(edt[1]) == q and int(edt[0]) == j and int(sdt[0]) == j and int(sdt[1]) == q:
             sDay = int(sdt[2])
             eDay = int(edt[2])
@@ -123,12 +134,19 @@ class SummaryService:
             sDay = 1
             eDay = self.daysInMonth[q]
         if sDay == eDay:
-            self.getDay(intervals, j, q, sDay, sdt, edt)
+            if type == "avg":
+                self.getDayAvg(intervals, j, q, sDay, sdt, edt)
+            else:
+                self.getDayDiff(intervals, j, q, sDay, sdt, edt)
         else:
             for i in range(sDay, eDay + 1):
-                self.getDay(intervals, j, q, i, sdt, edt)
+                if type == "avg":
+                    self.getDayAvg(intervals, j, q, i, sdt, edt)
+                else:
+                    self.getDayDiff(intervals, j, q, sDay, sdt, edt)
 
-    def getDay(self, intervals, j, q, i, sdt, edt):
+
+    def getDayAvg(self, intervals, j, q, i, sdt, edt):
         for k in range(0, 25):
             if ((k % 6) == 0):
                 avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
@@ -142,4 +160,20 @@ class SummaryService:
                 freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
                 outside = self.sql.avgTempBetween("outside", sDate, eDate)
                 interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
+                intervals.append(interval.__dict__)
+
+    def getDayDiff(self, intervals, j, q, i, sdt, edt):
+        for k in range(0, 25):
+            if ((k % 6) == 0):
+                avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
+                if i == 0:
+                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                else:
+                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                eDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
+                office = self.sql.tempDiffBetween("office", sDate, eDate)
+                bedroom = self.sql.tempDiffBetween("bedroom", sDate, eDate)
+                freezer = self.sql.tempDiffBetween("freezer", sDate, eDate)
+                outside = self.sql.tempDiffBetween("outside", sDate, eDate)
+                interval = Interval(avgDate, [str(office[0]), str(office[1])], [str(bedroom[0]), str(bedroom[1])], [str(freezer[0]), str(freezer[1])], [str(outside[0]), str(outside[1])])
                 intervals.append(interval.__dict__)
