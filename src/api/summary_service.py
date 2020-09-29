@@ -97,11 +97,28 @@ class SummaryService:
         intervals = []
         sdt = intervalRequest.startDate.split("-")
         edt = intervalRequest.endDate.split("-")
-        if int(sdt[0]) == int(edt[0]):
-            self.getAvgIntervals("diff", intervals, int(sdt[0]), sdt, edt)
+        if intervalRequest.startDate == intervalRequest.endDate:
+            dt = intervalRequest.startDate.split("-")
+            for k in range(0, 25):
+                if ((k % 2) == 0):
+                    avgDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), int(sdt[2]), 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
+                    if i == 0:
+                        sDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), int(sdt[2]), 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                    else:
+                        sDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), int(sdt[2]), 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                    eDate = (datetime.datetime(int(sdt[0]), int(sdt[1]), int(sdt[2]), 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
+                    office = self.sql.tempDiffBetween("office", sDate, eDate)
+                    bedroom = self.sql.tempDiffBetween("bedroom", sDate, eDate)
+                    freezer = self.sql.tempDiffBetween("freezer", sDate, eDate)
+                    outside = self.sql.tempDiffBetween("outside", sDate, eDate)
+                    interval = Interval(avgDate, [str(office[0]), str(office[1])], [str(bedroom[0]), str(bedroom[1])], [str(freezer[0]), str(freezer[1])], [str(outside[0]), str(outside[1])])
+                    intervals.append(interval.__dict__)
         else:
-            for j in range(int(sdt[0]), int(edt[0])):
-                self.getAvgIntervals("diff", intervals, j, sdt, edt)
+            if int(sdt[0]) == int(edt[0]):
+                self.getAvgIntervals("diff", intervals, int(sdt[0]), sdt, edt)
+            else:
+                for j in range(int(sdt[0]), int(edt[0])):
+                    self.getAvgIntervals("diff", intervals, j, sdt, edt)
         return intervals
 
     def getAvgIntervals(self, type, intervals, j, sdt, edt):
