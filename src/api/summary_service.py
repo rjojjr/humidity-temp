@@ -156,14 +156,19 @@ class SummaryService:
                 self.getDayDiff(intervals, j, q, sDay, sdt, edt)
         else:
             for i in range(sDay, eDay + 1):
-                if type == "avg":
-                    self.getDayAvg(intervals, j, q, i, sdt, edt)
+                if i == eDay:
+                    if type == "avg":
+                        self.getDayAvg(24, intervals, j, q, i, sdt, edt)
+                    else:
+                        self.getDayDiff(24, intervals, j, q, i, sdt, edt)
                 else:
-                    self.getDayDiff(intervals, j, q, i, sdt, edt)
+                    if type == "avg":
+                        self.getDayAvg(23, intervals, j, q, i, sdt, edt)
+                    else:
+                        self.getDayDiff(23, intervals, j, q, i, sdt, edt)
 
-
-    def getDayAvg(self, intervals, j, q, i, sdt, edt):
-        for k in range(0, 24):
+    def getDayAvg(self, endRange, intervals, j, q, i, sdt, edt):
+        for k in range(0, endRange):
                 avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
                 if i == 0:
                     sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
@@ -177,8 +182,8 @@ class SummaryService:
                 interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
                 intervals.append(interval.__dict__)
 
-    def getDayDiff(self, intervals, j, q, i, sdt, edt):
-        for k in range(0, 24):
+    def getDayDiff(self, endRange, intervals, j, q, i, sdt, edt):
+        for k in range(0, endRange):
             if ((k % 6) == 0):
                 avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
                 if i == 0:
