@@ -163,7 +163,7 @@ class SummaryService:
 
 
     def getDayAvg(self, intervals, j, q, i, sdt, edt):
-        for k in range(0, 23):
+        for k in range(0, 24):
                 avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
                 if i == 0:
                     sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
@@ -178,7 +178,7 @@ class SummaryService:
                 intervals.append(interval.__dict__)
 
     def getDayDiff(self, intervals, j, q, i, sdt, edt):
-        for k in range(0, 23):
+        for k in range(0, 24):
             if ((k % 6) == 0):
                 avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
                 if i == 0:
