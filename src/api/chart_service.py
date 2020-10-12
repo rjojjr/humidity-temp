@@ -119,5 +119,4 @@ class ChartService:
             else:
                 if first == False:
                     print("here")
-        cursor = cursor + count
         return Interval(intervalDate, self._getAvg(roomSums, "office"), self._getAvg(roomSums, "bedroom"), self._getAvg(roomSums, "freezer"), self._getAvg(roomSums, "outside"))
