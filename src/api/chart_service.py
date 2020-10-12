@@ -46,7 +46,6 @@ class ChartService:
 
     def _getAvg(self, roomSums, room):
         for sum in roomSums:
-            print(sum.sum)
             if sum.room == room:
                 if sum.count == 0:
                     return None
@@ -60,14 +59,15 @@ class ChartService:
     def _addRoomReading(self, roomSums, reading, type):
         sums = []
         for i in range(0, len(roomSums)):
-            sum = roomSums[i]
+            sum = roomSums[i].sum
+            count = roomSums[i].count
             if roomSums[i].room == reading.room:
                 if type == "temp":
-                    sum.sum = roomSums[i].sum + reading.temp
+                    sum = roomSums[i].sum + reading.temp
                 else:
-                    sum.sum = roomSums[i].sum + reading.humidity
-                sum = roomSums[i].count + 1
-            sums.append(sum)
+                    sum = roomSums[i].sum + reading.humidity
+                count = roomSums[i].count + 1
+            sums.append(RoomSum(roomSums[i].room, sum, count))
         return sums
 
     def _splitDate(self, date):
