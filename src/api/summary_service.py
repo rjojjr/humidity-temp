@@ -6,12 +6,14 @@ from api.models.summary import Summary
 from api.models.interval_request import IntervalRequest
 from api.models.interval import Interval
 from api.models.interval import Intervals
+from api.chart_service import ChartService
 
 class SummaryService:
 
     def __init__(self):
         self.sql = MySql()
         self.read = Read()
+        self.chartService = ChartService()
         self.daysInMonth = [
             31,
             28,
@@ -151,19 +153,19 @@ class SummaryService:
             eDay = self.daysInMonth[q]
         if sDay == eDay:
             if type == "avg":
-                self.getDayAvg(intervals, j, q, sDay, sdt, edt)
+                self.chartService.getDayAvgApi(intervals, j, q, sDay, sdt, edt)
             else:
                 self.getDayDiff(intervals, j, q, sDay, sdt, edt)
         else:
             for i in range(sDay, eDay + 1):
                 if i == eDay:
                     if type == "avg":
-                        self.getDayAvg(24, intervals, j, q, i, sdt, edt)
+                        self.chartService.getDayAvgApi(24, intervals, j, q, i, sdt, edt)
                     else:
                         self.getDayDiff(24, intervals, j, q, i, sdt, edt)
                 else:
                     if type == "avg":
-                        self.getDayAvg(23, intervals, j, q, i, sdt, edt)
+                        self.chartService.getDayAvgApi(23, intervals, j, q, i, sdt, edt)
                     else:
                         self.getDayDiff(23, intervals, j, q, i, sdt, edt)
 
