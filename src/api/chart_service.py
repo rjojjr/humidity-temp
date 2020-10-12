@@ -47,6 +47,8 @@ class ChartService:
     def _getAvg(self, roomSums, room):
         for sum in roomSums:
             if sum.room == room:
+                if sum.count == 0:
+                    return None
                 return int(sum.sum / sum.count)
         return None
 
