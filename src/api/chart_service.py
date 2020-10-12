@@ -44,10 +44,10 @@ class ChartService:
             eDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
             intervals.append(self._getInterval(records, cursor, self._splitDate(sDate), self._splitDate(eDate), avgDate, "temp"))
 
-    def _getSum(self, roomSums, room):
+    def _getAvg(self, roomSums, room):
         for sum in roomSums:
             if sum.room == room:
-                return sum.sum
+                return int(sum.sum / sum.count)
         return None
 
     def _getDate(self, reading):
@@ -60,6 +60,8 @@ class ChartService:
                     sum.sum = sum.sum + reading.temp
                 else:
                     sum.sum = sum.sum + reading.humidity
+                sum.count = sum.count + 1
+                break
         return roomSums
 
     def _splitDate(self, date):
@@ -108,4 +110,4 @@ class ChartService:
             else:
                 if first == False:
                     break
-        return Interval(intervalDate, self._getSum(roomSums, "office"), self._getSum(roomSums, "bedroom"), self._getSum(roomSums, "freezer"), self._getSum(roomSums, "outside"))
+        return Interval(intervalDate, self._getAvg(roomSums, "office"), self._getAvg(roomSums, "bedroom"), self._getAvg(roomSums, "freezer"), self._getAvg(roomSums, "outside"))
