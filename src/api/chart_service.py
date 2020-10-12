@@ -29,16 +29,16 @@ class ChartService:
             31
         ]
 
-    def getSum(self, roomSums, room):
+    def _getSum(self, roomSums, room):
         for sum in roomSums:
             if sum.room == room:
                 return sum.sum
         return None
 
-    def getDate(self, reading):
+    def _getDate(self, reading):
         return reading.date
 
-    def addRoomReading(self, roomSums, reading, type):
+    def _addRoomReading(self, roomSums, reading, type):
         for sum in roomSums:
             if sum.room == reading.room:
                 if type == "temp":
@@ -47,7 +47,7 @@ class ChartService:
                     sum.sum = sum.sum + reading.humidity
         return roomSums
 
-    def splitDate(self, date):
+    def _splitDate(self, date):
         split = []
         days = date.split(" ")[0]
         hours = date.split(" ")[1]
@@ -57,8 +57,8 @@ class ChartService:
             split.append(int(unit))
         return split
 
-    def compareDateSplit(self, subject, start, end):
-        split = self.splitDate(subject)
+    def _compareDateSplit(self, subject, start, end):
+        split = self._splitDate(subject)
         if split[0] >= start[0] and split[0] <= end[0]:
             if split[1] >= start[1] and split[1] <= end[1]:
                 if split[2] >= start[2] and split[2] <= end[2]:
@@ -83,7 +83,7 @@ class ChartService:
         startTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
         endTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = 24)).strftime('%Y-%m-%d %H:%M:%S')
         records = self.sql.getRecordsBetween(startTime, endTime)
-        records.sort(key=self.getDate)
+        records.sort(key=self._getDate)
         cursor = 0
         for k in range(0, endRange):
             avgDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
@@ -92,20 +92,20 @@ class ChartService:
             else:
                 sDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
             eDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
-            intervals.append(self.getInterval(records, cursor, self.splitDate(sDate), self.splitDate(eDate), avgDate, "temp"))
+            intervals.append(self._getInterval(records, cursor, self._splitDate(sDate), self._splitDate(eDate), avgDate, "temp"))
 
-    def getInterval(self, readings, cursor, startDate, endDate, intervalDate, type):
+    def _getInterval(self, readings, cursor, startDate, endDate, intervalDate, type):
         roomSums = []
         for room in self.sql.getRooms():
             roomSums.append(RoomSum(room, 0))
         first = True
         for i in range(cursor, len(readings)):
             cursor = i
-            if self.compareDateSplit(self.splitDate(readings[i].date), startDate, endDate):
+            if self._compareDateSplit(self._splitDate(readings[i].date), startDate, endDate):
                 if first:
                     first = False
-                self.addRoomReading(roomSums, readings[i], type)
+                self._addRoomReading(roomSums, readings[i], type)
             else:
                 if first == False:
                     break
-        return Interval(intervalDate, self.getSum(roomSums, "office"), self.getSum(roomSums, "bedroom"), self.getSum(roomSums, "freezer"), self.getSum(roomSums, "outside"))
+        return Interval(intervalDate, self._getSum(roomSums, "office"), self._getSum(roomSums, "bedroom"), self._getSum(roomSums, "freezer"), self._getSum(roomSums, "outside"))
