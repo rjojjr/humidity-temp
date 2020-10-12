@@ -6,12 +6,14 @@ from api.models.summary import Summary
 from api.models.interval_request import IntervalRequest
 from api.models.interval import Interval
 from api.models.interval import Intervals
+from api.chart_service import ChartService
 
 class SummaryService:
 
     def __init__(self):
         self.sql = MySql()
         self.read = Read()
+        self.chartService = ChartService()
         self.daysInMonth = [
             31,
             28,
@@ -67,30 +69,13 @@ class SummaryService:
 
     def getTempAvgChart(self, intervalRequest):
         intervals = []
-        if intervalRequest.startDate == intervalRequest.endDate:
-            dt = intervalRequest.startDate.split("-")
-            for i in range(0, 23):
-                if i % 2 == 0:
-                    avgDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = i)).strftime('%Y-%m-%d %H:%M:%S')
-                    if i == 0:
-                        sDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = (i - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                    else:
-                        sDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = (i - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                    eDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = (i + 1))).strftime('%Y-%m-%d %H:%M:%S')
-                    office = self.sql.avgTempBetween("office", sDate, eDate)
-                    bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
-                    freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
-                    outside = self.sql.avgTempBetween("outside", sDate, eDate)
-                    interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
-                    intervals.append(interval.__dict__)
+        sdt = intervalRequest.startDate.split("-")
+        edt = intervalRequest.endDate.split("-")
+        if int(sdt[0]) == int(edt[0]):
+            self.getAvgIntervals("avg", intervals, int(sdt[0]), sdt, edt)
         else:
-            sdt = intervalRequest.startDate.split("-")
-            edt = intervalRequest.endDate.split("-")
-            if int(sdt[0]) == int(edt[0]):
-                self.getAvgIntervals("avg", intervals, int(sdt[0]), sdt, edt)
-            else:
-                for j in range(int(sdt[0]), int(edt[0])):
-                    self.getAvgIntervals("avg", intervals, j, sdt, edt)
+            for j in range(int(sdt[0]), int(edt[0])):
+                self.getAvgIntervals("avg", intervals, j, sdt, edt)
         return intervals
 
     def getTempDiffChart(self, intervalRequest):
@@ -140,6 +125,7 @@ class SummaryService:
                 self.getMonthAvg(type, intervals, j, q, sdt, edt)
 
     def getMonthAvg(self, type, intervals, j, q, sdt, edt):
+        rooms = self.sql.getRooms()
         if int(edt[1]) == q and int(edt[0]) == j and int(sdt[0]) == j and int(sdt[1]) == q:
             sDay = int(sdt[2])
             eDay = int(edt[2])
@@ -151,19 +137,19 @@ class SummaryService:
             eDay = self.daysInMonth[q]
         if sDay == eDay:
             if type == "avg":
-                self.getDayAvg(intervals, j, q, sDay, sdt, edt)
+                self.chartService.getDayAvgApi(25, intervals, j, q, sDay, sdt, edt, rooms, 2)
             else:
                 self.getDayDiff(intervals, j, q, sDay, sdt, edt)
         else:
             for i in range(sDay, eDay + 1):
                 if i == eDay:
                     if type == "avg":
-                        self.getDayAvg(24, intervals, j, q, i, sdt, edt)
+                        self.chartService.getDayAvgApi(25, intervals, j, q, i, sdt, edt, rooms, 6)
                     else:
                         self.getDayDiff(24, intervals, j, q, i, sdt, edt)
                 else:
                     if type == "avg":
-                        self.getDayAvg(23, intervals, j, q, i, sdt, edt)
+                        self.chartService.getDayAvgApi(25, intervals, j, q, i, sdt, edt, rooms, 6)
                     else:
                         self.getDayDiff(23, intervals, j, q, i, sdt, edt)
 

@@ -6,6 +6,8 @@ import uuid
 #Debug SQL
 from api.models.summary import Summary
 
+from api.models.records import ReadingRecord
+
 SQL_DEBUG = 1
 
 class MySql:
@@ -140,6 +142,26 @@ class MySql:
         result = self.executeStatementReturn(statement)
         for i in result:
             return [i[0], i[1]]
+
+    def getRecordsBetween(self, room, start, stop):
+        now = datetime.datetime.today()
+        tom = now + datetime.timedelta(days = 1)
+        statement = "SELECT temp, humidity, time FROM readings WHERE room = '" + room + "' AND time BETWEEN '" + start + "' AND '" + stop + "';"
+        result = self.executeStatementReturn(statement)
+        records = []
+        for i in result:
+            records.append(ReadingRecord(room, i[0], i[1], i[2]))
+        return records
+
+    def getRecordsBetween(self, start, stop):
+        now = datetime.datetime.today()
+        tom = now + datetime.timedelta(days = 1)
+        statement = "SELECT temp, humidity, time, room FROM readings WHERE time BETWEEN '" + start + "' AND '" + stop + "';"
+        result = self.executeStatementReturn(statement)
+        records = []
+        for i in result:
+            records.append(ReadingRecord(i[3], i[0], i[1], i[2]))
+        return records
 
     def avgHumidityBetween(self, room, start, stop):
         now = datetime.datetime.today()
