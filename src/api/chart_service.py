@@ -49,7 +49,8 @@ class ChartService:
             if sum.room == room:
                 if sum.count == 0:
                     return None
-                return int(sum.sum / sum.count)
+                else:
+                    return int(sum.sum / sum.count)
         return None
 
     def _getDate(self, reading):
