@@ -108,7 +108,7 @@ class ChartService:
     def _getInterval(self, readings, cursor, startDate, endDate, intervalDate, type):
         roomSums = []
         for room in self.sql.getRooms():
-            roomSums.append(RoomSum(room, 0))
+            roomSums.append(RoomSum(room, 0, 0))
         first = True
         for i in range(cursor, len(readings)):
             cursor = cursor + 1
