@@ -68,9 +68,9 @@ class ChartService:
         split = []
         days = date.split(" ")[0]
         hours = date.split(" ")[1]
-        for unit in days:
+        for unit in days.split("-"):
             split.append(int(unit))
-        for unit in hours:
+        for unit in hours.split(":"):
             split.append(int(unit))
         return split
 
