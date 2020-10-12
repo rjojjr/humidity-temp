@@ -86,7 +86,6 @@ class ChartService:
                     if split[3] >= start[3] and split[3] <= end[3]:
                         if split[4] >= start[4] and split[4] <= end[4]:
                             if split[5] >= start[5] and split[5] <= end[5]:
-                                print("true")
                                 return True
                             else:
                                 return False
@@ -117,4 +116,5 @@ class ChartService:
                 if first == False:
                     break
         cursor = cursor + count
+        print(Interval(intervalDate, self._getAvg(roomSums, "office"), self._getAvg(roomSums, "bedroom"), self._getAvg(roomSums, "freezer"), self._getAvg(roomSums, "outside")))
         return Interval(intervalDate, self._getAvg(roomSums, "office"), self._getAvg(roomSums, "bedroom"), self._getAvg(roomSums, "freezer"), self._getAvg(roomSums, "outside"))
