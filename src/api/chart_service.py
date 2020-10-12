@@ -117,7 +117,6 @@ class ChartService:
                 roomSums = self._addRoomReading(roomSums, readings[i], type)
             else:
                 if first == False:
-                    break
+                    print("here")
         cursor = cursor + count
-        print(str(Interval(intervalDate, self._getAvg(roomSums, "office"), self._getAvg(roomSums, "bedroom"), self._getAvg(roomSums, "freezer"), self._getAvg(roomSums, "outside"))))
         return Interval(intervalDate, self._getAvg(roomSums, "office"), self._getAvg(roomSums, "bedroom"), self._getAvg(roomSums, "freezer"), self._getAvg(roomSums, "outside"))
