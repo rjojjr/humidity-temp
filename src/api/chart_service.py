@@ -106,7 +106,7 @@ class ChartService:
 
     def _getInterval(self, readings, cursor, startDate, endDate, intervalDate, type, rooms):
         roomSums = []
-        for room in :
+        for room in rooms:
             roomSums.append(RoomSum(room, 0, 0))
         first = True
         count = 0
