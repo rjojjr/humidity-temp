@@ -111,7 +111,7 @@ class ChartService:
             if self._compareDateSplit(readings[i].date, startDate, endDate):
                 if first:
                     first = False
-                self._addRoomReading(roomSums, readings[i], type)
+                roomSums = self._addRoomReading(roomSums, readings[i], type)
             else:
                 if first == False:
                     break
