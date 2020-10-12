@@ -110,7 +110,7 @@ class ChartService:
             roomSums.append(RoomSum(room, 0, 0))
         first = True
         count = 0
-        for i in range(0, len(readings)):
+        for i in range(cursor, len(readings)):
             count = count + 1
             if self._compareDateSplit(readings[i].date, startDate, endDate):
                 if first:
@@ -119,4 +119,5 @@ class ChartService:
             else:
                 if first == False:
                     break
+        cursor = cursor + count
         return Interval(intervalDate, self._getAvg(roomSums, "office"), self._getAvg(roomSums, "bedroom"), self._getAvg(roomSums, "freezer"), self._getAvg(roomSums, "outside"))
