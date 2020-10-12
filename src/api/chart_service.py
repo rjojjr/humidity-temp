@@ -68,7 +68,6 @@ class ChartService:
         return roomSums
 
     def _splitDate(self, date):
-        print(date)
         split = []
         days = str(date).split(" ")[0]
         hours = str(date).split(" ")[1]
@@ -116,5 +115,5 @@ class ChartService:
                 if first == False:
                     break
         cursor = cursor + count
-        print(Interval(intervalDate, self._getAvg(roomSums, "office"), self._getAvg(roomSums, "bedroom"), self._getAvg(roomSums, "freezer"), self._getAvg(roomSums, "outside")))
+        print(str(Interval(intervalDate, self._getAvg(roomSums, "office"), self._getAvg(roomSums, "bedroom"), self._getAvg(roomSums, "freezer"), self._getAvg(roomSums, "outside"))))
         return Interval(intervalDate, self._getAvg(roomSums, "office"), self._getAvg(roomSums, "bedroom"), self._getAvg(roomSums, "freezer"), self._getAvg(roomSums, "outside"))
