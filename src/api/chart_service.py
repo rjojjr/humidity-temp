@@ -61,6 +61,7 @@ class ChartService:
         for i in range(0, len(roomSums)):
             sum = roomSums[i].sum
             count = roomSums[i].count
+            print(count)
             if roomSums[i].room == reading.room:
                 if type == "temp":
                     sum = roomSums[i].sum + reading.temp
