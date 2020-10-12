@@ -149,7 +149,7 @@ class SummaryService:
                         self.getDayDiff(24, intervals, j, q, i, sdt, edt)
                 else:
                     if type == "avg":
-                        self.chartService.getDayAvgApi(25, intervals, j, q, i, sdt, edt, rooms, 6)
+                        self.chartService.getDayAvgApi(23, intervals, j, q, i, sdt, edt, rooms, 6)
                     else:
                         self.getDayDiff(23, intervals, j, q, i, sdt, edt)
 
