@@ -69,30 +69,13 @@ class SummaryService:
 
     def getTempAvgChart(self, intervalRequest):
         intervals = []
-        if intervalRequest.startDate == intervalRequest.endDate:
-            dt = intervalRequest.startDate.split("-")
-            for i in range(0, 23):
-                if i % 2 == 0:
-                    avgDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = i)).strftime('%Y-%m-%d %H:%M:%S')
-                    if i == 0:
-                        sDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = (i - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                    else:
-                        sDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = (i - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                    eDate = (datetime.datetime(int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0) + datetime.timedelta(hours = (i + 1))).strftime('%Y-%m-%d %H:%M:%S')
-                    office = self.sql.avgTempBetween("office", sDate, eDate)
-                    bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
-                    freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
-                    outside = self.sql.avgTempBetween("outside", sDate, eDate)
-                    interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
-                    intervals.append(interval.__dict__)
+        sdt = intervalRequest.startDate.split("-")
+        edt = intervalRequest.endDate.split("-")
+        if int(sdt[0]) == int(edt[0]):
+            self.getAvgIntervals("avg", intervals, int(sdt[0]), sdt, edt)
         else:
-            sdt = intervalRequest.startDate.split("-")
-            edt = intervalRequest.endDate.split("-")
-            if int(sdt[0]) == int(edt[0]):
-                self.getAvgIntervals("avg", intervals, int(sdt[0]), sdt, edt)
-            else:
-                for j in range(int(sdt[0]), int(edt[0])):
-                    self.getAvgIntervals("avg", intervals, j, sdt, edt)
+            for j in range(int(sdt[0]), int(edt[0])):
+                self.getAvgIntervals("avg", intervals, j, sdt, edt)
         return intervals
 
     def getTempDiffChart(self, intervalRequest):
