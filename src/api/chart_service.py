@@ -59,17 +59,17 @@ class ChartService:
 
     def _addRoomReading(self, roomSums, reading, type):
         sums = []
-        for i in range(0, len(roomSums)):
-            sum = roomSums[i].sum
-            count = roomSums[i].count
+        for tSum in roomSums:
+            sum = tSum.sum
+            count = tSum.count
             print(count)
-            if roomSums[i].room == reading.room:
+            if tSum.room == reading.room:
                 if type == "temp":
-                    sum = roomSums[i].sum + reading.temp
+                    sum = tSum.sum + reading.temp
                 else:
-                    sum = roomSums[i].sum + reading.humidity
-                count = roomSums[i].count + 1
-            sums.append(RoomSum(roomSums[i].room, sum, count))
+                    sum = tSum.sum + reading.humidity
+                count = tSum.count + 1
+            sums.append(RoomSum(tSum.room, sum, count))
         return sums
 
     def _splitDate(self, date):
