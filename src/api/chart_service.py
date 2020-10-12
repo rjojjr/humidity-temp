@@ -70,6 +70,7 @@ class ChartService:
         unit.replace("]", "")
 
     def _splitDate(self, date):
+        print(date)
         split = []
         days = str(date).split(" ")[0]
         hours = str(date).split(" ")[1]
