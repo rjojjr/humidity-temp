@@ -79,6 +79,7 @@ class ChartService:
             print(unit)
             split.append(int(self._trimChars(unit)))
         for unit in hours.split(":"):
+            print(unit)
             split.append(int(self._trimChars(unit)))
         return split
 
