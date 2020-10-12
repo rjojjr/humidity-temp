@@ -68,6 +68,7 @@ class ChartService:
         unit.replace("[", "")
         unit.replace(",", "")
         unit.replace("]", "")
+        return unit
 
     def _splitDate(self, date):
         print(date)
