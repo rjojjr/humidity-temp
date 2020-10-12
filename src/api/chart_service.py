@@ -58,13 +58,13 @@ class ChartService:
         return reading.date
 
     def _addRoomReading(self, roomSums, reading, type):
-        for sum in roomSums:
-            if sum.room == reading.room:
+        for i in range(0, len(roomSums)):
+            if roomSums[i].room == reading.room:
                 if type == "temp":
-                    sum.sum = sum.sum + reading.temp
+                    roomSums[i].sum = roomSums[i].sum + reading.temp
                 else:
-                    sum.sum = sum.sum + reading.humidity
-                sum.count = sum.count + 1
+                    roomSums[i].sum = roomSums[i].sum + reading.humidity
+                roomSums[i].count = roomSums[i].count + 1
                 break
         return roomSums
 
