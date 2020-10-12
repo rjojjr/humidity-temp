@@ -6,6 +6,7 @@ class ReadingRecord:
         self.date = date
 
 class RoomSum:
-    def __init__(self, room, sum):
+    def __init__(self, room, sum, count):
         self.room = room
         self.sum = sum
+        self.count = count
