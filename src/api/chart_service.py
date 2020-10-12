@@ -32,6 +32,7 @@ class ChartService:
     def getDayAvgApi(self, endRange, intervals, year, month, day, sdt, edt):
         startTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
         endTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = 24)).strftime('%Y-%m-%d %H:%M:%S')
+        rooms = self.sql.getRooms()
         records = self.sql.getRecordsBetween(startTime, endTime)
         records.sort(key=self._getDate)
         cursor = 0
@@ -42,7 +43,7 @@ class ChartService:
             else:
                 sDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
             eDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
-            intervals.append(self._getInterval(records, cursor, self._splitDate(sDate), self._splitDate(eDate), avgDate, "temp").__dict__)
+            intervals.append(self._getInterval(records, cursor, self._splitDate(sDate), self._splitDate(eDate), avgDate, "temp", rooms).__dict__)
 
     def _getAvg(self, roomSums, room):
         for sum in roomSums:
@@ -103,9 +104,9 @@ class ChartService:
         else:
             return False
 
-    def _getInterval(self, readings, cursor, startDate, endDate, intervalDate, type):
+    def _getInterval(self, readings, cursor, startDate, endDate, intervalDate, type, rooms):
         roomSums = []
-        for room in self.sql.getRooms():
+        for room in :
             roomSums.append(RoomSum(room, 0, 0))
         first = True
         count = 0
