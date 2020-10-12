@@ -110,12 +110,12 @@ class ChartService:
             roomSums.append(RoomSum(room, 0, 0))
         first = True
         count = 0
-        for i in range(cursor, len(readings)):
+        for reading in readings:
             count = count + 1
-            if self._compareDateSplit(readings[i].date, startDate, endDate):
+            if self._compareDateSplit(reading.date, startDate, endDate):
                 if first:
                     first = False
-                roomSums = self._addRoomReading(roomSums, readings[i], type)
+                roomSums = self._addRoomReading(roomSums, reading, type)
             else:
                 if first == False:
                     break
