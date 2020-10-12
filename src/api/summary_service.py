@@ -153,7 +153,7 @@ class SummaryService:
             eDay = self.daysInMonth[q]
         if sDay == eDay:
             if type == "avg":
-                self.chartService.getDayAvgApi(intervals, j, q, sDay, sdt, edt)
+                self.chartService.getDayAvgApi(24, intervals, j, q, sDay, sdt, edt)
             else:
                 self.getDayDiff(intervals, j, q, sDay, sdt, edt)
         else:

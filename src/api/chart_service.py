@@ -31,7 +31,7 @@ class ChartService:
 
     def getDayAvgApi(self, endRange, intervals, year, month, day, sdt, edt):
         startTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = -1)).strftime('%Y-%m-%d %H:%M:%S')
-        endTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = 25)).strftime('%Y-%m-%d %H:%M:%S')
+        endTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = endRange)).strftime('%Y-%m-%d %H:%M:%S')
         rooms = self.sql.getRooms()
         records = self.sql.getRecordsBetween(startTime, endTime)
         records.sort(key=self._getDate)
@@ -90,6 +90,7 @@ class ChartService:
                     if split[3] >= start[3] and split[3] <= end[3]:
                         if split[4] >= start[4] and split[4] <= end[4]:
                             if split[5] >= start[5] and split[5] <= end[5]:
+                                print(subject)
                                 return True
                             else:
                                 return False
