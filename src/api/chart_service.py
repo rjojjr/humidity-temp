@@ -112,8 +112,7 @@ class ChartService:
         first = True
         for i in range(cursor, len(readings)):
             cursor = cursor + 1
-            print(readings[i].date)
-            if self._compareDateSplit(self._splitDate(readings[i].date), startDate, endDate):
+            if self._compareDateSplit(readings[i].date, startDate, endDate):
                 if first:
                     first = False
                 self._addRoomReading(roomSums, readings[i], type)
