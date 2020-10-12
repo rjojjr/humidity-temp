@@ -29,6 +29,21 @@ class ChartService:
             31
         ]
 
+    def getDayAvgApi(self, endRange, intervals, year, month, day, sdt, edt):
+        startTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
+        endTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = 24)).strftime('%Y-%m-%d %H:%M:%S')
+        records = self.sql.getRecordsBetween(startTime, endTime)
+        records.sort(key=self._getDate)
+        cursor = 0
+        for k in range(0, endRange):
+            avgDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
+            if day == 0:
+                sDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                sDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+            eDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
+            intervals.append(self._getInterval(records, cursor, self._splitDate(sDate), self._splitDate(eDate), avgDate, "temp"))
+
     def _getSum(self, roomSums, room):
         for sum in roomSums:
             if sum.room == room:
@@ -78,21 +93,6 @@ class ChartService:
                 return False
         else:
             return False
-
-    def getDayAvgApi(self, endRange, intervals, year, month, day, sdt, edt):
-        startTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
-        endTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = 24)).strftime('%Y-%m-%d %H:%M:%S')
-        records = self.sql.getRecordsBetween(startTime, endTime)
-        records.sort(key=self._getDate)
-        cursor = 0
-        for k in range(0, endRange):
-            avgDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
-            if day == 0:
-                sDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
-            else:
-                sDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
-            eDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
-            intervals.append(self._getInterval(records, cursor, self._splitDate(sDate), self._splitDate(eDate), avgDate, "temp"))
 
     def _getInterval(self, readings, cursor, startDate, endDate, intervalDate, type):
         roomSums = []
