@@ -142,6 +142,7 @@ class SummaryService:
                 self.getMonthAvg(type, intervals, j, q, sdt, edt)
 
     def getMonthAvg(self, type, intervals, j, q, sdt, edt):
+        rooms = self.sql.getRooms()
         if int(edt[1]) == q and int(edt[0]) == j and int(sdt[0]) == j and int(sdt[1]) == q:
             sDay = int(sdt[2])
             eDay = int(edt[2])
@@ -153,19 +154,19 @@ class SummaryService:
             eDay = self.daysInMonth[q]
         if sDay == eDay:
             if type == "avg":
-                self.chartService.getDayAvgApi(24, intervals, j, q, sDay, sdt, edt)
+                self.chartService.getDayAvgApi(24, intervals, j, q, sDay, sdt, edt, rooms)
             else:
                 self.getDayDiff(intervals, j, q, sDay, sdt, edt)
         else:
             for i in range(sDay, eDay + 1):
                 if i == eDay:
                     if type == "avg":
-                        self.chartService.getDayAvgApi(24, intervals, j, q, i, sdt, edt)
+                        self.chartService.getDayAvgApi(24, intervals, j, q, i, sdt, edt, rooms)
                     else:
                         self.getDayDiff(24, intervals, j, q, i, sdt, edt)
                 else:
                     if type == "avg":
-                        self.chartService.getDayAvgApi(23, intervals, j, q, i, sdt, edt)
+                        self.chartService.getDayAvgApi(23, intervals, j, q, i, sdt, edt, rooms)
                     else:
                         self.getDayDiff(23, intervals, j, q, i, sdt, edt)
 

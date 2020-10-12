@@ -29,10 +29,9 @@ class ChartService:
             31
         ]
 
-    def getDayAvgApi(self, endRange, intervals, year, month, day, sdt, edt):
+    def getDayAvgApi(self, endRange, intervals, year, month, day, sdt, edt, rooms):
         startTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = -1)).strftime('%Y-%m-%d %H:%M:%S')
         endTime = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = endRange)).strftime('%Y-%m-%d %H:%M:%S')
-        rooms = self.sql.getRooms()
         records = self.sql.getRecordsBetween(startTime, endTime)
         records.sort(key=self._getDate)
         cursor = 0
@@ -62,7 +61,6 @@ class ChartService:
         for tSum in roomSums:
             sum = tSum.sum
             count = tSum.count
-            print(count)
             if tSum.room == reading.room:
                 if type == "temp":
                     sum = tSum.sum + reading.temp
