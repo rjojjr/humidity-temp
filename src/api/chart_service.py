@@ -67,23 +67,15 @@ class ChartService:
                 break
         return roomSums
 
-    def _trimChars(self, unit):
-        unit = unit.replace("[", "")
-        unit = unit.replace(",", "")
-        unit = unit.replace("]", "")
-        return unit
-
     def _splitDate(self, date):
         print(date)
         split = []
         days = str(date).split(" ")[0]
         hours = str(date).split(" ")[1]
         for unit in days.split("-"):
-            print(unit)
-            split.append(int(self._trimChars(unit)))
+            split.append(int(unit))
         for unit in hours.split(":"):
-            print(unit)
-            split.append(int(self._trimChars(unit)))
+            split.append(int(unit))
         return split
 
     def _compareDateSplit(self, subject, start, end):
@@ -94,6 +86,7 @@ class ChartService:
                     if split[3] >= start[3] and split[3] <= end[3]:
                         if split[4] >= start[4] and split[4] <= end[4]:
                             if split[5] >= start[5] and split[5] <= end[5]:
+                                print("true")
                                 return True
                             else:
                                 return False
