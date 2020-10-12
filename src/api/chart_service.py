@@ -84,26 +84,11 @@ class ChartService:
 
     def _compareDateSplit(self, subject, start, end):
         split = self._splitDate(str(subject))
-        print(split)
-        print(start)
-        print(end)
-        if split[0] >= start[0] and split[0] <= end[0]:
-            if split[1] >= start[1] and split[1] <= end[1]:
-                if split[2] >= start[2] and split[2] <= end[2]:
-                    if split[3] >= start[3] and split[3] <= end[3]:
-                        if split[4] >= start[4] and split[4] <= end[4]:
-                            if split[5] >= start[5] and split[5] <= end[5]:
-                                return True
-                            else:
-                                return False
-                        else:
-                            return False
-                    else:
-                        return False
-                else:
-                    return False
-            else:
-                return False
+        sub = (datetime.datetime(split[0], split[1], split[2], split[3], split[4], split[5]) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
+        s = (datetime.datetime(start[0], start[1], start[2], start[3], start[4], start[5]) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
+        e = (datetime.datetime(end[0], end[1], end[2], end[3], end[4], end[5]) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
+        if sub >= s and sub <= e:
+            return True
         else:
             return False
 
