@@ -82,7 +82,7 @@ class ChartService:
         return split
 
     def _compareDateSplit(self, subject, start, end):
-        if subject >= start and subject <= end:
+        if str(subject) >= str(start) and str(subject) <= str(end):
             return True
         else:
             return False
