@@ -43,7 +43,7 @@ class ChartService:
                 else:
                     sDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
                 eDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
-                intervals.append(self._getInterval(records, cursor, self._splitDate(sDate), self._splitDate(eDate), avgDate, "temp", rooms).__dict__)
+                intervals.append(self._getInterval(records, cursor, sDate, eDate, avgDate, "temp", rooms).__dict__)
 
     def _getAvg(self, roomSums, room):
         for sum in roomSums:
@@ -82,11 +82,7 @@ class ChartService:
         return split
 
     def _compareDateSplit(self, subject, start, end):
-        split = self._splitDate(str(subject))
-        sub = (datetime.datetime(split[0], split[1], split[2], split[3], split[4], split[5]) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
-        s = (datetime.datetime(start[0], start[1], start[2], start[3], start[4], start[5]) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
-        e = (datetime.datetime(end[0], end[1], end[2], end[3], end[4], end[5]) + datetime.timedelta(hours = 0)).strftime('%Y-%m-%d %H:%M:%S')
-        if sub >= s and sub <= e:
+        if subject >= start and subject <= end:
             return True
         else:
             return False
