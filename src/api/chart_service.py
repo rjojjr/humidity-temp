@@ -65,9 +65,9 @@ class ChartService:
         return roomSums
 
     def _trimChars(self, unit):
-        unit.replace("[", "")
-        unit.replace(",", "")
-        unit.replace("]", "")
+        unit = unit.replace("[", "")
+        unit = unit.replace(",", "")
+        unit = unit.replace("]", "")
         return unit
 
     def _splitDate(self, date):
