@@ -45,6 +45,30 @@ class ChartService:
                 eDate = (datetime.datetime(year, month, day, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
                 intervals.append(self._getInterval(records, cursor, sDate, eDate, avgDate, "temp", rooms).__dict__)
 
+    def getDayDiff(self, endRange, intervals, j, q, i, sdt, edt, fullDays):
+        if fullDays:
+            avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0)).strftime('%Y-%m-%d')
+            sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (0))).strftime('%Y-%m-%d %H:%M:%S')
+            eDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (24))).strftime('%Y-%m-%d %H:%M:%S')
+            self._getTempDiffInterval(intervals, sDate, eDate, avgDate)
+        for k in range(0, endRange):
+            if ((k % 6) == 0):
+                avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
+                if i == 0:
+                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                else:
+                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                eDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
+                self._getTempDiffInterval(intervals, sDate, eDate, avgDate)
+
+    def _getTempDiffInterval(self, intervals, sDate, eDate, avgDate):
+        office = self.sql.tempDiffBetween("office", sDate, eDate)
+        bedroom = self.sql.tempDiffBetween("bedroom", sDate, eDate)
+        freezer = self.sql.tempDiffBetween("freezer", sDate, eDate)
+        outside = self.sql.tempDiffBetween("outside", sDate, eDate)
+        interval = Interval(avgDate, [str(office[0]), str(office[1])], [str(bedroom[0]), str(bedroom[1])], [str(freezer[0]), str(freezer[1])], [str(outside[0]), str(outside[1])])
+        intervals.append(interval.__dict__)
+
     def _getAvg(self, roomSums, room):
         for sum in roomSums:
             if sum.room == room:

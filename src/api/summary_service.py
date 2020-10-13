@@ -125,6 +125,7 @@ class SummaryService:
                 self.getMonthAvg(type, intervals, j, q, sdt, edt)
 
     def getMonthAvg(self, type, intervals, j, q, sdt, edt):
+        fullDays = False
         rooms = self.sql.getRooms()
         if int(edt[1]) == q and int(edt[0]) == j and int(sdt[0]) == j and int(sdt[1]) == q:
             sDay = int(sdt[2])
@@ -135,36 +136,23 @@ class SummaryService:
         else:
             sDay = 1
             eDay = self.daysInMonth[q]
+        if eDay - sDay >= 3:
+            fullDays = True
         if sDay == eDay:
             if type == "avg":
                 self.chartService.getDayAvgApi(25, intervals, j, q, sDay, sdt, edt, rooms, 2)
             else:
-                self.getDayDiff(intervals, j, q, sDay, sdt, edt)
+                self.chartService.getDayDiff(intervals, j, q, sDay, sdt, edt)
         else:
             for i in range(sDay, eDay + 1):
                 if i == eDay:
                     if type == "avg":
                         self.chartService.getDayAvgApi(25, intervals, j, q, i, sdt, edt, rooms, 6)
                     else:
-                        self.getDayDiff(24, intervals, j, q, i, sdt, edt)
+                        self.chartService.getDayDiff(24, intervals, j, q, i, sdt, edt)
                 else:
                     if type == "avg":
                         self.chartService.getDayAvgApi(23, intervals, j, q, i, sdt, edt, rooms, 6)
                     else:
-                        self.getDayDiff(23, intervals, j, q, i, sdt, edt)
+                        self.chartService.getDayDiff(23, intervals, j, q, i, sdt, edt)
 
-    def getDayDiff(self, endRange, intervals, j, q, i, sdt, edt):
-        for k in range(0, endRange):
-            if ((k % 6) == 0):
-                avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
-                if i == 0:
-                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                else:
-                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                eDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
-                office = self.sql.tempDiffBetween("office", sDate, eDate)
-                bedroom = self.sql.tempDiffBetween("bedroom", sDate, eDate)
-                freezer = self.sql.tempDiffBetween("freezer", sDate, eDate)
-                outside = self.sql.tempDiffBetween("outside", sDate, eDate)
-                interval = Interval(avgDate, [str(office[0]), str(office[1])], [str(bedroom[0]), str(bedroom[1])], [str(freezer[0]), str(freezer[1])], [str(outside[0]), str(outside[1])])
-                intervals.append(interval.__dict__)
