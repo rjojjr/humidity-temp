@@ -71,17 +71,7 @@ class ChartService:
             sums.append(RoomSum(tSum.room, sum, count))
         return sums
 
-    def _splitDate(self, date):
-        split = []
-        days = str(date).split(" ")[0]
-        hours = str(date).split(" ")[1]
-        for unit in days.split("-"):
-            split.append(int(unit))
-        for unit in hours.split(":"):
-            split.append(int(unit))
-        return split
-
-    def _compareDateSplit(self, subject, start, end):
+    def _compareDate(self, subject, start, end):
         if str(subject) >= str(start) and str(subject) <= str(end):
             return True
         else:
@@ -95,7 +85,7 @@ class ChartService:
         count = 0
         for i in range(cursor, len(readings)):
             count = count + 1
-            if self._compareDateSplit(readings[i].date, startDate, endDate):
+            if self._compareDate(readings[i].date, startDate, endDate):
                 if first:
                     first = False
                 roomSums = self._addRoomReading(roomSums, readings[i], type)
