@@ -153,21 +153,6 @@ class SummaryService:
                     else:
                         self.getDayDiff(23, intervals, j, q, i, sdt, edt)
 
-    def getDayAvg(self, endRange, intervals, j, q, i, sdt, edt):
-        for k in range(0, endRange):
-                avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
-                if i == 0:
-                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                else:
-                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                eDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
-                office = self.sql.avgTempBetween("office", sDate, eDate)
-                bedroom = self.sql.avgTempBetween("bedroom", sDate, eDate)
-                freezer = self.sql.avgTempBetween("freezer", sDate, eDate)
-                outside = self.sql.avgTempBetween("outside", sDate, eDate)
-                interval = Interval(avgDate, str(office), str(bedroom), str(freezer), str(outside))
-                intervals.append(interval.__dict__)
-
     def getDayDiff(self, endRange, intervals, j, q, i, sdt, edt):
         for k in range(0, endRange):
             if ((k % 6) == 0):
