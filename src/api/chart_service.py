@@ -53,6 +53,7 @@ class ChartService:
                 intervals.append(self._getInterval(records, cursor, sDate, eDate, avgDate, "temp", rooms).__dict__)
 
     def _getDayDiff(self, endRange, intervals, j, q, i, sdt, edt, fullDays):
+        print{fullDays}
         if fullDays:
             avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0)).strftime('%Y-%m-%d')
             sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (0))).strftime('%Y-%m-%d %H:%M:%S')
