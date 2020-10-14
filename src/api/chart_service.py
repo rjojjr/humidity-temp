@@ -53,21 +53,21 @@ class ChartService:
                 intervals.append(self._getInterval(records, cursor, sDate, eDate, avgDate, "temp", rooms).__dict__)
 
     def _getDayDiff(self, endRange, intervals, j, q, i, sdt, edt, fullDays):
-        print{fullDays}
         if fullDays:
             avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0)).strftime('%Y-%m-%d')
             sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (0))).strftime('%Y-%m-%d %H:%M:%S')
             eDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (24))).strftime('%Y-%m-%d %H:%M:%S')
             self._getTempDiffInterval(intervals, sDate, eDate, avgDate)
-        for k in range(0, endRange):
-            if ((k % 6) == 0):
-                avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
-                if i == 0:
-                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                else:
-                    sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
-                eDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
-                self._getTempDiffInterval(intervals, sDate, eDate, avgDate)
+        else:
+            for k in range(0, endRange):
+                if ((k % 6) == 0):
+                    avgDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = k)).strftime('%Y-%m-%d %H:%M:%S')
+                    if i == 0:
+                        sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                    else:
+                        sDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k - 1))).strftime('%Y-%m-%d %H:%M:%S')
+                    eDate = (datetime.datetime(j, q, i, 0, 0, 0, 0) + datetime.timedelta(hours = (k + 1))).strftime('%Y-%m-%d %H:%M:%S')
+                    self._getTempDiffInterval(intervals, sDate, eDate, avgDate)
 
     def _getTempAvgChart(self, intervalRequest):
         intervals = []
