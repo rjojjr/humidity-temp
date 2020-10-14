@@ -132,7 +132,7 @@ class ChartService:
         else:
             sDay = 1
             eDay = self.daysInMonth[q]
-        if int(sdt[0]) != int(edt[0]) or int(sdt[1]) != int(edt[1]) or eDay - sDay >= 3:
+        if int(sdt[0]) != int(edt[0]) or int(sdt[1]) != int(edt[1]) or (eDay - sDay) >= 3:
             fullDays = True
         if sDay == eDay:
             if type == "avg":
