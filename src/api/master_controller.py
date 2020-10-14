@@ -10,6 +10,8 @@ from api.models.interval_request import IntervalRequest
 
 from api.summary_service import SummaryService
 
+from api.chart_service import ChartService
+
 import threading
 
 app = flask.Flask(__name__)
@@ -59,8 +61,8 @@ def server():
     @app.route('/chart', methods=['POST'])
     def chart():
         req = IntervalRequest(request.get_json().get('type'), request.get_json().get('startDate'), request.get_json().get('endDate'))
-        summary = SummaryService()
-        return flask.jsonify(summary.getChart(req))
+        chartService = ChartService()
+        return flask.jsonify(chartService.getChart(req))
 
     app.run(host="0.0.0.0", port=8080, debug=True)
 
