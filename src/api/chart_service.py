@@ -150,7 +150,7 @@ class ChartService:
                     if type == "avg":
                         self._getDayAvgApi(23, intervals, j, q, i, sdt, edt, rooms, 6)
                     else:
-                        self._getDayDiff(23, intervals, j, q, i, sdt, edt)
+                        self._getDayDiff(23, intervals, j, q, i, sdt, edt, fullDays)
 
     def _getOneDayDiff(self, intervals, sdt, edt):
         for k in range(0, 25):
