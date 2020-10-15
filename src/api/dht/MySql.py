@@ -110,10 +110,11 @@ class MySql:
 
     def transferRecords(self, host):
         statement = "SELECT temp, humidity, time, room, id FROM readings;"
+        print("fetching records from old host")
         result = self.executeStatementRemote(statement, host)
         records = []
         for i in result:
-            print("transferring record " + i[4] + " from old host")
+            print("inserting record " + i[4] + " from old host")
             self.insertRecordWithTs(i[0], i[1], i[3], i[2])
         return len(records)
 
