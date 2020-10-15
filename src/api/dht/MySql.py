@@ -108,6 +108,19 @@ class MySql:
         statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + str(temp) + "','" + str(humidity) + "','"  + time_stamp.strftime('%Y-%m-%d %H:%M:%S') + "');"
         self.executeStatement(statement)
 
+    def insertRecordsWithTs(self, records):
+        first = True
+        statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + str(temp) + "','" + str(humidity) + "','"  + time_stamp.strftime('%Y-%m-%d %H:%M:%S') + "');"
+        for record in records:
+            vals  = " ('" + record.room + "', '" + str(record.temp) + "', '" + str(record.humidity) + "', '" + record.time.strftime('%Y-%m-%d %H:%M:%S') + "')"
+            if first:
+                first = False
+                statement = statement + vals
+            else:
+                statement = statement + ", " + vals
+        statement = statement + ";"
+        self.executeStatement(statement)
+
     def transferRecords(self, host):
         time = self.getLastTransfer()
         statement = "SELECT temp, humidity, time, room, id FROM readings WHERE time >= '" + time.strftime('%Y-%m-%d %H:%M:%S') + "';"
@@ -115,11 +128,12 @@ class MySql:
         result = self.executeStatementRemote(statement, host)
         records = []
         for i in result:
-             self.insertRecordWithTs(i[0], i[1], i[3], i[2])
+            records.append(ReadingRecord(i[3], i[0], i[1], i[2]))
+        self.insertRecordsWithTs(records)
         return len(records)
 
-    def getLastTransfer(self):
-        statement = "SELECT MAX(time) FROM readings WHERE time BETWEEN '2020-08-30 15:34:56' AND '2020-09-06 15:34:56';"
+    def getLastTransfer(self, start, stop):
+        statement = "SELECT MAX(time) FROM readings WHERE time BETWEEN '2020-08-30 15:34:56' AND '2020-09-20 15:34:56';"
         result = self.executeStatementReturn(statement)
         for i in result:
             return i[0]
