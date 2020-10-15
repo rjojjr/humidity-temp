@@ -55,7 +55,7 @@ class MySql:
                 print("An SQL error happened")
                 return ""
 
-    def executeStatementReturn(self, statement, host):
+    def executeStatementRemote(self, statement, host):
         try:
             mydb = mysql.connector.connect(
                 host=host,
@@ -104,17 +104,17 @@ class MySql:
         statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + temp + "','" + humidity + "','"  + formatted_date + "');"
         self.executeStatement(statement)
 
-    def insertRecord(self, temp, humidity, room, time_stamp):
+    def insertRecordWithTs(self, temp, humidity, room, time_stamp):
         statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + temp + "','" + humidity + "','"  + time_stamp + "');"
         self.executeStatement(statement)
 
     def transferRecords(self, host):
         statement = "SELECT temp, humidity, time, room, id FROM readings;"
-        result = self.executeStatementReturn(statement, host)
+        result = self.executeStatementRemote(statement, host)
         records = []
         for i in result:
             print("transferring record " + id + " from old host")
-            self.insertRecord(i[0], i[1], i[3], i[2])
+            self.insertRecordWithTs(i[0], i[1], i[3], i[2])
         return len(records)
 
     def avgTemp(self, room):

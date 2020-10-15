@@ -45,7 +45,7 @@ def server():
         sql = MySql()
         sql.insertRecord(temp, hum, room)
         return flask.jsonify(GenericResponse("okay"))
-    
+
     @app.route('/summary/<room>', methods=['GET'])
     def summary(room):
         assert room == request.view_args['room']
