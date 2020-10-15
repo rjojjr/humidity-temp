@@ -44,7 +44,7 @@ def server():
         room = request.args.get('room')
         sql = MySql()
         sql.insertRecord(temp, hum, room)
-        return flask.jsonify(GenericResponse("okay"))
+        return flask.jsonify(GenericResponse("okay").__dict__)
 
     @app.route('/summary/<room>', methods=['GET'])
     def summary(room):
@@ -67,7 +67,7 @@ def server():
     def transferRecords():
         sql = MySql()
         recordCount = sql.transferRecords(request.get_json().get('host'))
-        return flask.jsonify(GenericResponse("Processed " + recordCount + " records from old host"))
+        return flask.jsonify(GenericResponse("Processed " + recordCount + " records from old host").__dict__)
 
     app.run(host="0.0.0.0", port=8080, debug=True)
 
