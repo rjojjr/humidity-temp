@@ -113,7 +113,7 @@ class MySql:
         result = self.executeStatementRemote(statement, host)
         records = []
         for i in result:
-            print("transferring record " + id + " from old host")
+            print("transferring record " + i[4] + " from old host")
             self.insertRecordWithTs(i[0], i[1], i[3], i[2])
         return len(records)
 
