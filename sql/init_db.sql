@@ -7,4 +7,4 @@ CREATE USER 'pythonuser'@'192.168.1.167' IDENTIFIED BY 'UEAkJFcwcmRQQCQkVzByZAo=
 GRANT ALL PRIVILEGES ON py_temp.readings TO 'pythonuser'@'192.168.1.167';
 GRANT ALL PRIVILEGES ON py_temp.notifications TO 'pythonuser'@'localhost';
 
-"select * from readings where time between '2020/08/25 17:00:00' and '2020/08/25 00:00:00';"
+CREATE INDEX reading_time_asc ON readings(time ASC);
