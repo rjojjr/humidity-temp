@@ -55,6 +55,29 @@ class MySql:
                 print("An SQL error happened")
                 return ""
 
+    def executeStatementReturn(self, statement, host):
+        try:
+            mydb = mysql.connector.connect(
+                host=host,
+                port="3306",
+                user="pythonuser",
+                password="UEAkJFcwcmRQQCQkVzByZAo=",
+                database="py_temp"
+            )
+
+            mycursor = mydb.cursor(buffered=True)
+            if (SQL_DEBUG == 1):
+                print("Executing SQL statement: " + statement)
+            mycursor.execute(statement)
+            if (SQL_DEBUG == 1):
+                print("Committing to db")
+            mydb.commit()
+            records = mycursor.fetchall()
+            return records
+        except:
+            print("An SQL error happened")
+            return ""
+
     def latestReading(self, room):
         statement = "SELECT temp, humidity FROM readings WHERE time = (SELECT MAX(time) FROM readings  WHERE room  = '" + room + "');"
         result = self.executeStatementReturn(statement)
