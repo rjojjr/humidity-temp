@@ -105,7 +105,7 @@ class MySql:
         self.executeStatement(statement)
 
     def insertRecordWithTs(self, temp, humidity, room, time_stamp):
-        statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + temp + "','" + humidity + "','"  + time_stamp.strftime('%Y-%m-%d %H:%M:%S') + "');"
+        statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + str(temp) + "','" + str(humidity) + "','"  + time_stamp.strftime('%Y-%m-%d %H:%M:%S') + "');"
         self.executeStatement(statement)
 
     def transferRecords(self, host):
