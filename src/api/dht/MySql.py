@@ -109,13 +109,20 @@ class MySql:
         self.executeStatement(statement)
 
     def transferRecords(self, host):
-        statement = "SELECT temp, humidity, time, room, id FROM readings WHERE time >= '2020-08-30 15:34:56';"
+        time = self.getLastTransfer()
+        statement = "SELECT temp, humidity, time, room, id FROM readings WHERE time >= '" + time + "';"
         print("fetching records from old host")
         result = self.executeStatementRemote(statement, host)
         records = []
         for i in result:
              self.insertRecordWithTs(i[0], i[1], i[3], i[2])
         return len(records)
+
+    def getLastTransfer(self):
+        statement = "SELECT MAX(time) FROM readings WHERE time BETWEEN '2020-08-30 15:34:56' AND '2020-09-06 15:34:56';"
+        result = self.executeStatementReturn(statement)
+        for i in result:
+            return i[0]
 
     def avgTemp(self, room):
         statement = "SELECT AVG(temp) 'Average Temp' FROM readings WHERE room = '" + room + "';"
