@@ -11,6 +11,7 @@ from api.models.interval_request import IntervalRequest
 from api.summary_service import SummaryService
 
 from api.chart_service import ChartService
+from api.models.request_response import GenericResponse
 
 import threading
 
@@ -43,10 +44,8 @@ def server():
         room = request.args.get('room')
         sql = MySql()
         sql.insertRecord(temp, hum, room)
-        return flask.jsonify({
-        "msg": "okay"
-        })
-
+        return flask.jsonify(GenericResponse("okay"))
+    
     @app.route('/summary/<room>', methods=['GET'])
     def summary(room):
         assert room == request.view_args['room']
@@ -63,6 +62,12 @@ def server():
         req = IntervalRequest(request.get_json().get('type'), request.get_json().get('startDate'), request.get_json().get('endDate'))
         chartService = ChartService()
         return flask.jsonify(chartService.getChart(req))
+
+    @app.route('/transfer', methods=['POST'])
+    def transferRecords():
+        sql = MySql()
+        recordCount = sql.transferRecords(request.get_json().get('host'))
+        return flask.jsonify(GenericResponse("Processed " + recordCount + " records from old host"))
 
     app.run(host="0.0.0.0", port=8080, debug=True)
 
