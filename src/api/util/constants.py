@@ -1,6 +1,6 @@
-from typing import Final
 
-DAYS_IN_MONTH: Final = [
+
+DAYS_IN_MONTH = [
     31,
     28,
     31,
