@@ -108,13 +108,14 @@ class MySql:
         statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + temp + "','" + humidity + "','"  + time_stamp + "');"
         self.executeStatement(statement)
 
-    def transferRecords(self):
+    def transferRecords(self, host):
         statement = "SELECT temp, humidity, time, room, id FROM readings;"
-        result = self.executeStatementReturn(statement, "192.168.1.12")
+        result = self.executeStatementReturn(statement, host)
         records = []
         for i in result:
             print("transferring record " + id + " from old host")
             self.insertRecord(i[0], i[1], i[3], i[2])
+        return len(records)
 
     def avgTemp(self, room):
         statement = "SELECT AVG(temp) 'Average Temp' FROM readings WHERE room = '" + room + "';"
