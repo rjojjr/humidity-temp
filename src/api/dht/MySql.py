@@ -132,7 +132,7 @@ class MySql:
         self.insertRecordsWithTs(records)
         return len(records)
 
-    def getLastTransfer(self, start, stop):
+    def getLastTransfer(self):
         statement = "SELECT MAX(time) FROM readings WHERE time BETWEEN '2020-08-30 15:34:56' AND '2020-09-20 15:34:56';"
         result = self.executeStatementReturn(statement)
         for i in result:
