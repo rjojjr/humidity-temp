@@ -8,7 +8,7 @@ from api.models.summary import Summary
 
 from api.models.records import ReadingRecord
 
-SQL_DEBUG = 1
+SQL_DEBUG = 0
 
 class MySql:
 
@@ -109,13 +109,12 @@ class MySql:
         self.executeStatement(statement)
 
     def transferRecords(self, host):
-        statement = "SELECT temp, humidity, time, room, id FROM readings;"
+        statement = "SELECT temp, humidity, time, room, id FROM readings WHERE time >= '2020-08-30 15:34:56';"
         print("fetching records from old host")
         result = self.executeStatementRemote(statement, host)
         records = []
         for i in result:
-            if(i[4] >= 79885):
-                self.insertRecordWithTs(i[0], i[1], i[3], i[2])
+             self.insertRecordWithTs(i[0], i[1], i[3], i[2])
         return len(records)
 
     def avgTemp(self, room):
