@@ -9,25 +9,14 @@ from api.models.interval import Intervals
 from api.models.records import ReadingRecord
 from api.models.records import RoomSum
 
+from api.util.constants import DAYS_IN_MONTH
+
 class ChartService:
 
     def __init__(self):
         self.sql = MySql()
         self.read = Read()
-        self.daysInMonth = [
-            31,
-            28,
-            31,
-            30,
-            31,
-            30,
-            31,
-            31,
-            30,
-            31,
-            30,
-            31
-        ]
+        self.daysInMonth = DAYS_IN_MONTH
 
     def getChart(self, intervalRequest):
         if intervalRequest.type == "temp":
