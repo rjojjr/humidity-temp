@@ -9,12 +9,14 @@ from api.dht.MySql import MySql
 from api.models.interval_request import IntervalRequest
 
 from api.summary_service import SummaryService
+from api.auth.auth_service import AuthService
 
 from api.chart_service import ChartService
-from api.models.request_response import GenericResponse
+from api.models.request_response import GenericResponse, UnauthedResponse
 
 import threading
 
+authService = AuthService()
 app = flask.Flask(__name__)
 cors = CORS(app)
 def server():
@@ -44,7 +46,7 @@ def server():
         room = request.args.get('room')
         sql = MySql()
         sql.insertRecord(temp, hum, room)
-        return flask.jsonify(GenericResponse("okay").__dict__)
+        return flask.jsonify(GenericResponse("okay", 201, "Created").__dict__)
 
     @app.route('/summary/<room>', methods=['GET'])
     def summary(room):
@@ -65,9 +67,15 @@ def server():
 
     @app.route('/transfer', methods=['POST'])
     def transferRecords():
+        if authService.validateToken(request.get_json().get('token')):
+            return flask.jsonify(_startTransfer())
+        else:
+            return flask.jsonify(UnauthedResponse("Invalid token provided").__dict__)
+
+    def _startTransfer():
         sql = MySql()
         recordCount = sql.transferRecords(request.get_json().get('host'))
-        return flask.jsonify(GenericResponse("Processed " + recordCount + " records from old host").__dict__)
+        return GenericResponse("Processed " + recordCount + " records from old host", 204, "No Content").__dict__
 
     app.run(host="0.0.0.0", port=8080, debug=True)
 
