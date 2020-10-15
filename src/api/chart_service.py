@@ -56,7 +56,7 @@ class ChartService:
             else:
                 self._getDayDiff(intervals, j, q, sDay, sdt, edt, fullDays, 6)
         else:
-            for i in range(sDay, eDay + 1):
+            for i in range(sDay, eDay):
                 if i == eDay:
                     if type == "avg":
                         self._getDayAvgApi(25, intervals, j, q, i, sdt, edt, rooms, 6)
