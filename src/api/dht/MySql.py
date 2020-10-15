@@ -114,8 +114,8 @@ class MySql:
         result = self.executeStatementRemote(statement, host)
         records = []
         for i in result:
-            print("inserting record " + str(i[4]) + " from old host")
-            self.insertRecordWithTs(i[0], i[1], i[3], i[2])
+            if(i[4] >= 79885):
+                self.insertRecordWithTs(i[0], i[1], i[3], i[2])
         return len(records)
 
     def avgTemp(self, room):
