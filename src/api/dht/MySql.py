@@ -120,6 +120,7 @@ class MySql:
             if count % 1000 == 0:
                 print("inserting record " + str(i[4]) + " from old host")
             self.insertRecordWithTs(i[0], i[1], i[3], i[2])
+            count = count + 1
         return len(records)
 
     def getLastTransfer(self):
