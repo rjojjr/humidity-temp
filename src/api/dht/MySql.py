@@ -109,8 +109,7 @@ class MySql:
         self.executeStatement(statement)
 
     def transferRecords(self, host):
-        time = self.getLastTransfer()
-        statement = "SELECT temp, humidity, time, room, id FROM readings WHERE time >= '" + time.strftime('%Y-%m-%d %H:%M:%S') + "';"
+        statement = "SELECT temp, humidity, time, room, id FROM readings ;"
         print("fetching records from old host")
         result = self.executeStatementRemote(statement, host)
         records = []
