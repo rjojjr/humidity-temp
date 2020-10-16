@@ -108,28 +108,18 @@ class MySql:
         statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + str(temp) + "','" + str(humidity) + "','"  + time_stamp.strftime('%Y-%m-%d %H:%M:%S') + "');"
         self.executeStatement(statement)
 
-    def insertRecordsWithTs(self, records):
-        first = True
-        statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES"
-        for record in records:
-            vals  = " ('" + record.room + "', '" + str(record.temp) + "', '" + str(record.humidity) + "', '" + record.date.strftime('%Y-%m-%d %H:%M:%S') + "')"
-            if first:
-                first = False
-                statement = statement + vals
-            else:
-                statement = statement + ", " + vals
-        statement = statement + ";"
-        self.executeStatement(statement)
-
     def transferRecords(self, host):
         time = self.getLastTransfer()
         statement = "SELECT temp, humidity, time, room, id FROM readings WHERE time >= '" + time.strftime('%Y-%m-%d %H:%M:%S') + "';"
         print("fetching records from old host")
         result = self.executeStatementRemote(statement, host)
         records = []
+        print("inserting " + len(result) + " records from old host")
+        count = 0
         for i in result:
-            records.append(ReadingRecord(i[3], i[0], i[1], i[2]))
-        self.insertRecordsWithTs(records)
+            if count % 1000 == 0:
+                print("inserting record " + str(i[4]) + " from old host")
+            self.insertRecordWithTs(i[0], i[1], i[3], i[2])
         return len(records)
 
     def getLastTransfer(self):
