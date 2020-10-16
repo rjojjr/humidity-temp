@@ -110,7 +110,7 @@ class MySql:
 
     def insertRecordsWithTs(self, records):
         first = True
-        statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES ('" + room + "','" + str(temp) + "','" + str(humidity) + "','"  + time_stamp.strftime('%Y-%m-%d %H:%M:%S') + "');"
+        statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES"
         for record in records:
             vals  = " ('" + record.room + "', '" + str(record.temp) + "', '" + str(record.humidity) + "', '" + record.time.strftime('%Y-%m-%d %H:%M:%S') + "')"
             if first:
