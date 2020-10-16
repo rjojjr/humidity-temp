@@ -36,7 +36,7 @@ class ChartService:
             eDay = int(edt[2])
         else:
             sDay = 1
-            eDay = self.daysInMonth[q]
+            eDay = self.daysInMonth[q - 1]
         if int(sdt[0]) != int(edt[0]) or int(sdt[1]) != int(edt[1]) or (eDay - sDay) >= 3:
             fullDays = True
         if sDay == eDay:
@@ -45,7 +45,7 @@ class ChartService:
             else:
                 self._getDayDiff(intervals, j, q, sDay, sdt, edt, fullDays, 6)
         else:
-            for i in range(sDay, eDay):
+            for i in range(sDay, eDay + 1):
                 if i == eDay:
                     if type == "avg":
                         self._getDayAvgApi(25, intervals, j, q, i, sdt, edt, rooms, 6)
