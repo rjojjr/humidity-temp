@@ -112,7 +112,7 @@ class MySql:
         first = True
         statement = "INSERT INTO readings (`room`, `temp`, `humidity`, `time`) VALUES"
         for record in records:
-            vals  = " ('" + record.room + "', '" + str(record.temp) + "', '" + str(record.humidity) + "', '" + record.time.strftime('%Y-%m-%d %H:%M:%S') + "')"
+            vals  = " ('" + record.room + "', '" + str(record.temp) + "', '" + str(record.humidity) + "', '" + record.date.strftime('%Y-%m-%d %H:%M:%S') + "')"
             if first:
                 first = False
                 statement = statement + vals
