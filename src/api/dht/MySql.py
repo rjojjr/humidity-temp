@@ -114,7 +114,7 @@ class MySql:
         print("fetching records from old host")
         result = self.executeStatementRemote(statement, host)
         records = []
-        print("inserting " + len(result) + " records from old host")
+        print("inserting " + str(len(result)) + " records from old host")
         count = 0
         for i in result:
             if count % 1000 == 0:
